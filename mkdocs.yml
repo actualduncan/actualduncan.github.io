@@ -3,6 +3,7 @@ site_name: blog
 theme:
     name: 'material'
     favicon: res/favicon-32x32.png
+    logo: res/favicon-32x32.png
     palette:
 
     # Light mode
