@@ -2,8 +2,8 @@ site_name: Duncan Rendall
 
 theme:
     name: 'material'
-    favicon: res/favicon-32x32.png
-    logo: res/profile.png
+    favicon: res/profile.png
+    logo: res/profile_with_star.png
     palette:
 
     # Light mode
