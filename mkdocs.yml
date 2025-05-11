@@ -3,14 +3,25 @@ site_name: blog
 theme:
     name: 'material'
     favicon: res/favicon-32x32.png
-    logo: res/favicon-32x32.png
     palette:
 
     # Light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: blue grey
+      primary: white
       accent: indigo
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: blue
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
 
 # Extensions
 markdown_extensions:
