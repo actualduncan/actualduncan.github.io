@@ -1,6 +1,4 @@
-# Blog
+# Duncan Rendall
+Engine Software Engineer
 
-Publish your public notes with MkDocs
-
-## Hello World!
-Does this link work or what?[[Wow]]
+[[Post1]]
