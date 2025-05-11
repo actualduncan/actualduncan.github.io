@@ -2,6 +2,7 @@ site_name: Duncan Rendall
 
 theme:
     name: 'material'
+    favicon: docs/res/favicon-32x32.png
     palette:
 
     # Light mode
@@ -12,7 +13,6 @@ theme:
       toggle:
         icon: material/toggle-switch-off-outline
         name: Switch to dark mode
-      favicon: res/favicon-32x32.png
 
     # Dark mode
     - media: "(prefers-color-scheme: dark)"
@@ -22,7 +22,6 @@ theme:
       toggle:
         icon: material/toggle-switch
         name: Switch to light mode
-      favicon: res/favicon-32x32.png
 
 # Extensions
 markdown_extensions:
