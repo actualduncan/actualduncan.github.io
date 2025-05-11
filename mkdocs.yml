@@ -1,15 +1,14 @@
-site_name: Duncan Rendall
+site_name: blog
 
 theme:
     name: 'material'
     favicon: res/favicon-32x32.png
-    logo: res/favicon-32x32.png
     palette:
 
     # Light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: teal
+      primary: blue grey
       accent: indigo
       toggle:
         icon: material/toggle-switch-off-outline
@@ -18,7 +17,7 @@ theme:
     # Dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: teal
+      primary: blue grey
       accent: blue
       toggle:
         icon: material/toggle-switch
