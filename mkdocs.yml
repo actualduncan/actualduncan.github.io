@@ -3,6 +3,7 @@ site_name: Duncan Rendall
 theme:
     name: 'material'
     favicon: docs/res/favicon-32x32.png
+    logo: docs/res/favicon-32x32.png
     palette:
 
     # Light mode
