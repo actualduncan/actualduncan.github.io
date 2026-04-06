@@ -10,8 +10,6 @@ body {
   font-family: 'VT323', monospace;
   margin: 0;
   padding: 20px;
-  
-  /* This forces the body to be the full height of the mobile screen */
   display: flex;
   flex-direction: column;
   min-height: 100dvh; 
@@ -21,21 +19,23 @@ body {
 h1 {
   padding: 0;
   margin: 0;
-  /* Scales header: bigger on mobile, capped on desktop */
-  font-size: clamp(35pt, 12vw, 50pt); 
-  line-height: 1;
+  font-size: clamp(30pt, 12vw, 50pt); 
+  line-height: 30px; /* Snugs it up against the links */
 }
 
 .container {
-  line-height: 1;
+  line-height: 8px; /* Restored your original tight line-height */
   display: flex;
-  margin-top: 10px;
-  /* Scales nav links for easy tapping on mobile */
-  font-size: clamp(18px, 5vw, 24px); 
+  margin-top: 0; /* Kills any extra space above */
+  font-size: clamp(16px, 5vw, 22px); 
 }
 
 .container div {
-  margin-right: 15px; /* Spacing between links */
+  margin-top: 0;
+  margin-left: 4px; /* Restored your original spacing */
+  padding: 0;
+  display: flex;
+  align-items: center;
 }
 
 hr {
@@ -49,13 +49,10 @@ hr {
   background: rgb(48, 48, 48);
   border: 1px solid #ccc;
   padding: 10px;
-  
-  /* THE FIX: This forces the box to stretch to the bottom */
   flex-grow: 1; 
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* Keeps text at the bottom */
-  
+  justify-content: flex-end; 
   width: 100%;
   overflow: hidden;
   margin-bottom: 10px;
@@ -63,10 +60,10 @@ hr {
 
 .terminal-text {
   margin: 0;
-  /* Scales the terminal text for mobile readability */
   font-size: clamp(16px, 4.5vw, 20px);
-  border-right: 6px solid white;
-  white-space: pre-wrap; /* Allows text to wrap on narrow screens */
+  /* 1ch makes the cursor exactly the width of 1 character, scaling dynamically */
+  border-right: 1ch solid white; 
+  white-space: pre-wrap; 
   word-break: break-all;
   animation: blink 1s step-end infinite;
 }
