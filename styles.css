@@ -9,66 +9,73 @@ body {
   color: white;
   font-family: 'VT323', monospace;
   margin: 0;
-  padding: 15px;
+  padding: 20px;
   
-  /* This is the magic for the vertical fill */
+  /* This forces the body to be the full height of the mobile screen */
   display: flex;
   flex-direction: column;
-  min-height: 100dvh; /* Fill the whole mobile screen */
+  min-height: 100dvh; 
+  overflow-x: hidden;
 }
 
 h1 {
+  padding: 0;
   margin: 0;
-  /* Scales font-size based on screen width */
-  font-size: clamp(2.5rem, 12vw, 4rem); 
+  /* Scales header: bigger on mobile, capped on desktop */
+  font-size: clamp(35pt, 12vw, 50pt); 
   line-height: 1;
 }
 
 .container {
+  line-height: 1;
   display: flex;
-  gap: 15px; /* Spaces out Home/Blog/Projects */
   margin-top: 10px;
-  font-size: clamp(1.2rem, 5vw, 1.8rem);
+  /* Scales nav links for easy tapping on mobile */
+  font-size: clamp(18px, 5vw, 24px); 
+}
+
+.container div {
+  margin-right: 15px; /* Spacing between links */
 }
 
 hr {
   width: 100%;
   border: 0;
-  border-top: 1px solid #444;
-  margin: 15px 0;
+  border-top: 1px solid #ccc;
+  margin: 20px 0;
 }
 
 .code-container {
+  background: rgb(48, 48, 48);
+  border: 1px solid #ccc;
+  padding: 10px;
+  
+  /* THE FIX: This forces the box to stretch to the bottom */
+  flex-grow: 1; 
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* Keeps text at the bottom like a terminal */
-  flex-grow: 1; /* FORCES this box to expand to the footer */
+  justify-content: flex-end; /* Keeps text at the bottom */
   
-  background: rgb(30, 30, 30);
-  border: 1px solid #555;
-  padding: 15px;
-  margin-bottom: 10px;
+  width: 100%;
   overflow: hidden;
+  margin-bottom: 10px;
 }
 
 .terminal-text {
   margin: 0;
-  color: #00ff00; /* Classic terminal green? */
-  font-size: clamp(1rem, 4.5vw, 1.4rem);
-  line-height: 1.4;
-  word-break: break-word; /* Prevents long words from breaking layout */
-  
-  /* Cursor/Animation */
-  border-right: 3px solid white;
-  white-space: pre-wrap; 
+  /* Scales the terminal text for mobile readability */
+  font-size: clamp(16px, 4.5vw, 20px);
+  border-right: 6px solid white;
+  white-space: pre-wrap; /* Allows text to wrap on narrow screens */
+  word-break: break-all;
   animation: blink 1s step-end infinite;
 }
 
 footer {
-  font-size: 0.9rem;
-  color: #888;
-  text-align: center;
-  padding-bottom: 5px;
+  font-size: 16px;
+  color: white;
+  text-align: left;
+  padding-top: 5px;
 }
 
 @keyframes blink {
