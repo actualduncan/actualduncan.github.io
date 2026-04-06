@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
-/* Basic Reset & Modern Viewport */
+/* --- Reset & Layout --- */
 * {
   box-sizing: border-box;
 }
@@ -26,7 +26,7 @@ h1 {
 
 .container {
   display: flex;
-  margin-top: -8px; /* Tighter to H1 */
+  margin-top: -8px; 
 }
 
 .container div {
@@ -41,7 +41,7 @@ hr {
   margin: 10px 0;
 }
 
-/* --- The Terminal Box --- */
+/* --- Terminal Container --- */
 .code-container {
   background: rgb(48, 48, 48);
   border: 1px solid #ccc;
@@ -56,7 +56,6 @@ hr {
   margin-bottom: 5px;
 }
 
-/* Keeps paragraphs stacked vertically */
 .terminal-line {
   display: block;
   width: 100%;
@@ -64,7 +63,7 @@ hr {
 }
 
 .terminal-text {
-  /* Variables handled by scripts.js */
+  /* Logic values provided by scripts.js */
   --char-count: 0;
   --delay: 0s;
   --duration: 1s;
@@ -76,38 +75,57 @@ hr {
   display: inline-block;
   position: relative;
   width: 0;
-  padding-right: 1.2ch; /* Safe zone for caret */
+  visibility: hidden; /* Fully hidden until animation starts */
 
-  /* Animation pulls timing from JS variables */
   animation: typing var(--duration, 1s) steps(var(--char-count, 20), end) forwards;
   animation-delay: var(--delay, 0s);
 }
 
-/* --- The Caret (Only on the absolute last line) --- */
-.terminal-line:last-child .terminal-text::after {
+/* --- The Caret Logic --- */
+/* Every line gets a caret while it's actively typing */
+.terminal-text::after {
   content: '█';
   position: absolute;
   right: 0;
   width: 1ch;
   color: white;
   background: white;
-  visibility: hidden; /* Hidden until its specific delay is over */
+  visibility: hidden;
   
-  /* wait-then-blink starts exactly when this line starts typing */
-  animation: wait-then-blink 1s step-start infinite;
+  animation: caret-logic var(--duration, 1s) step-start forwards;
   animation-delay: var(--delay, 0s);
 }
 
-/* --- Animations --- */
-@keyframes typing {
-  from { width: 0; }
-  to { width: calc((var(--char-count) * 1ch) + 1.2ch); }
+/* ONLY the last line blinks indefinitely after its turn */
+.terminal-line:last-child .terminal-text::after {
+  animation: 
+    caret-logic var(--duration, 1s) step-start forwards,
+    blink 1s step-end infinite;
+  animation-delay: var(--delay, 0s), calc(var(--delay) + var(--duration));
 }
 
-@keyframes wait-then-blink {
-  /* Stay solid white/visible while typing */
-  0%, 100% { visibility: visible; opacity: 1; }
-  /* Blink off halfway through the cycle */
+/* --- Keyframes --- */
+@keyframes typing {
+  from { 
+    width: 0; 
+    padding-right: 0;
+    visibility: visible;
+  }
+  to { 
+    /* width accounts for characters + 1.2ch for the caret padding */
+    width: calc((var(--char-count) * 1ch) + 1.2ch); 
+    padding-right: 1.2ch;
+    visibility: visible;
+  }
+}
+
+@keyframes caret-logic {
+  /* Show caret while the typing animation is active */
+  0%, 100% { visibility: visible; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
 
