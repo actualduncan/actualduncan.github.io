@@ -20,4 +20,101 @@ body {
 h1 {
   padding: 0;
   margin: 0;
-  font-size: clamp(30pt, 12vw
+  font-size: clamp(30pt, 12vw, 50pt); 
+  line-height: 0.75; 
+}
+
+.container {
+  display: flex;
+  margin-top: -8px; /* Tighter to H1 */
+}
+
+.container div {
+  margin-right: 6px; 
+  font-size: clamp(14px, 4.5vw, 20px); 
+}
+
+hr {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 10px 0;
+}
+
+/* --- The Terminal Box --- */
+.code-container {
+  background: rgb(48, 48, 48);
+  border: 1px solid #ccc;
+  padding: 15px;
+  flex-grow: 1; 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  align-items: flex-start; 
+  width: 100%;
+  overflow-y: auto; 
+  margin-bottom: 5px;
+}
+
+/* Keeps paragraphs stacked vertically */
+.terminal-line {
+  display: block;
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.terminal-text {
+  /* Variables handled by scripts.js */
+  --char-count: 0;
+  --delay: 0s;
+  --duration: 1s;
+
+  margin: 0;
+  font-size: clamp(16px, 4.5vw, 20px);
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  position: relative;
+  width: 0;
+  padding-right: 1.2ch; /* Safe zone for caret */
+
+  /* Animation pulls timing from JS variables */
+  animation: typing var(--duration, 1s) steps(var(--char-count, 20), end) forwards;
+  animation-delay: var(--delay, 0s);
+}
+
+/* --- The Caret (Only on the absolute last line) --- */
+.terminal-line:last-child .terminal-text::after {
+  content: '█';
+  position: absolute;
+  right: 0;
+  width: 1ch;
+  color: white;
+  background: white;
+  visibility: hidden; /* Hidden until its specific delay is over */
+  
+  /* wait-then-blink starts exactly when this line starts typing */
+  animation: wait-then-blink 1s step-start infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* --- Animations --- */
+@keyframes typing {
+  from { width: 0; }
+  to { width: calc((var(--char-count) * 1ch) + 1.2ch); }
+}
+
+@keyframes wait-then-blink {
+  /* Stay solid white/visible while typing */
+  0%, 100% { visibility: visible; opacity: 1; }
+  /* Blink off halfway through the cycle */
+  50% { opacity: 0; }
+}
+
+/* --- Footer --- */
+footer {
+  font-size: 14px;
+  color: white;
+  margin-top: auto;
+  padding: 5px 0;
+}
