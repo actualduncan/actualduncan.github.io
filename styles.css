@@ -1,7 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Inter');
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
-/* Force borders and padding to stay inside the width */
 * {
   box-sizing: border-box;
 }
@@ -10,109 +8,70 @@ body {
   background-color: #202020;
   color: white;
   font-family: 'VT323', monospace;
-  /* Font scales between 18px and 22px based on screen size */
-  font-size: clamp(18px, 4vw, 22px);
+  margin: 0;
+  padding: 15px;
+  
+  /* This is the magic for the vertical fill */
   display: flex;
   flex-direction: column;
-  /* Use dvh to account for mobile browser address bars */
-  min-height: 100dvh;
-  max-height: 100dvh;
-  margin: 0;
-  padding: 20px;
-  overflow-x: hidden;
-  overflow-y: auto;
+  min-height: 100dvh; /* Fill the whole mobile screen */
 }
 
 h1 {
   margin: 0;
-  padding: 0;
-  /* Scales header so it doesn't dwarf the screen on mobile */
-  font-size: clamp(24pt, 10vw, 30pt);
-  line-height: 1.1;
-  text-align: left;
+  /* Scales font-size based on screen width */
+  font-size: clamp(2.5rem, 12vw, 4rem); 
+  line-height: 1;
+}
+
+.container {
+  display: flex;
+  gap: 15px; /* Spaces out Home/Blog/Projects */
+  margin-top: 10px;
+  font-size: clamp(1.2rem, 5vw, 1.8rem);
 }
 
 hr {
   width: 100%;
   border: 0;
-  border-top: 1px solid #ccc;
-  margin: 20px 0;
-}
-
-.content {
-  width: 100%;
-  max-width: 600px; /* Limits desktop width but stays 100% on mobile */
-  margin: 0 auto;
-  position: relative;
+  border-top: 1px solid #444;
+  margin: 15px 0;
 }
 
 .code-container {
   display: flex;
-  flex-grow: 1;
-  background: rgb(48, 48, 48);
-  border: 1px solid #ccc;
-  font-size: 14px;
-  align-items: flex-end;
-  padding: 10px;
-  /* CRITICAL: Prevents terminal text from pushing the box off-screen */
-  width: 100%;
-  max-width: 100%;
+  flex-direction: column;
+  justify-content: flex-end; /* Keeps text at the bottom like a terminal */
+  flex-grow: 1; /* FORCES this box to expand to the footer */
+  
+  background: rgb(30, 30, 30);
+  border: 1px solid #555;
+  padding: 15px;
+  margin-bottom: 10px;
   overflow: hidden;
-  min-width: 0; 
 }
 
 .terminal-text {
-  --char-count: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  display: inline-block;
-  border-right: 4px solid white; /* Thinner cursor for mobile */
-  padding: 4px;
-  align-self: flex-end;
-  animation: 
-    typing 1.5s steps(var(--char-count, 20), end),
-    blink 1s step-end infinite;
-  /* Prevents text from being wider than the container */
-  max-width: 100%;
+  margin: 0;
+  color: #00ff00; /* Classic terminal green? */
+  font-size: clamp(1rem, 4.5vw, 1.4rem);
+  line-height: 1.4;
+  word-break: break-word; /* Prevents long words from breaking layout */
+  
+  /* Cursor/Animation */
+  border-right: 3px solid white;
+  white-space: pre-wrap; 
+  animation: blink 1s step-end infinite;
 }
 
-@keyframes typing {
-  from { width: 0; }
-  to { width: calc(var(--char-count) * 1ch); }
+footer {
+  font-size: 0.9rem;
+  color: #888;
+  text-align: center;
+  padding-bottom: 5px;
 }
 
 @keyframes blink {
   from, to { border-right-color: transparent; }
   50% { border-right-color: white; }
-}
-
-.container {
-  line-height: 1.2;
-  display: flex;
-  width: 100%;
-}
-
-.container div {
-  margin-left: 8px;
-  padding: 0;
-  display: flex;
-  align-items: center;
-}
-
-/* Vertical line adjustment */
-.vl {
-  position: absolute;
-  left: 0;
-  border-right: 2px solid white;
-  height: 100%;
-}
-
-/* Media Query for tight screens */
-@media (max-width: 480px) {
-  body {
-    padding: 10px;
-  }
-  .container {
-    padding-left: 10px; /* Space for the .vl line */
-  }
 }
