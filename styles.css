@@ -13,25 +13,25 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100dvh; 
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 h1 {
   padding: 0;
   margin: 0;
   font-size: clamp(30pt, 12vw, 50pt); 
-  line-height: 0.8; 
+  line-height: 0.75; /* Even tighter to the links */
 }
 
 .container {
   display: flex;
-  margin-top: -6px; 
+  margin-top: -8px; /* Pulled right up to the H1 letters */
   padding: 0;
   font-size: clamp(14px, 4.5vw, 20px); 
 }
 
 .container div {
-  margin-right: 4px; 
+  margin-right: 6px; /* Links are very close together */
   padding: 0;
 }
 
@@ -39,64 +39,52 @@ hr {
   width: 100%;
   border: 0;
   border-top: 1px solid #ccc;
-  margin: 8px 0; 
+  margin: 10px 0;
 }
 
 .code-container {
   background: rgb(48, 48, 48);
   border: 1px solid #ccc;
-  padding: 8px;
+  padding: 10px;
   flex-grow: 1; 
   display: flex;
   flex-direction: column;
+  /* Keep text at the bottom, but pinned to the LEFT */
   justify-content: flex-end; 
+  align-items: flex-start; 
   width: 100%;
   overflow: hidden;
   margin-bottom: 5px;
 }
 
 .terminal-text {
+  --char-count: 0;
   margin: 0;
   font-size: clamp(16px, 4.5vw, 20px);
-  position: relative;
-  display: inline-block;
   white-space: nowrap;
-  color: white;
-}
-
-/* THE CURTAIN (Hides the text) */
-.terminal-text::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgb(48, 48, 48); /* Matches code-container background */
-  /* This moves the curtain to the right */
-  animation: reveal 1.5s steps(var(--char-count, 20), end) forwards;
-}
-
-/* THE BLINKER (Attached to the front of the curtain) */
-.terminal-text::after {
-  content: "█";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
+  overflow: hidden;
+  display: inline-block;
+  width: 0;
+  
+  /* Blinker is the border. 1ch makes it exactly one character wide */
+  border-right: 1ch solid white; 
+  
+  /* Animation 1: Typing (1.5s) */
+  /* Animation 2: Blink (Starts AFTER 1.5s delay) */
   animation: 
-    reveal 1.5s steps(var(--char-count, 20), end) forwards,
-    blink 1s step-start infinite;
+    typing 1.5s steps(var(--char-count, 20), end) forwards,
+    blink 1s step-end infinite 1.5s; 
 }
 
-@keyframes reveal {
-  from { left: 0; }
-  to { left: 100%; }
+@keyframes typing {
+  from { width: 0; }
+  to { width: calc(var(--char-count) * 1ch); }
 }
 
+/* Blinks by toggling the border color */
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  from, to { border-color: transparent; }
+  50% { border-color: white; }
 }
 
 footer {
