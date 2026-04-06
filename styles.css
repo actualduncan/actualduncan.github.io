@@ -16,7 +16,6 @@ body {
   overflow-x: hidden;
 }
 
-/* --- Header & Navigation --- */
 h1 {
   padding: 0;
   margin: 0;
@@ -26,14 +25,13 @@ h1 {
 
 .container {
   display: flex;
-  margin-top: -8px; /* Tight grip to the H1 */
+  margin-top: -8px; 
   padding: 0;
   font-size: clamp(14px, 4.5vw, 20px); 
 }
 
 .container div {
-  margin-right: 4px; /* Links almost touching */
-  padding: 0;
+  margin-right: 4px; 
 }
 
 hr {
@@ -43,11 +41,10 @@ hr {
   margin: 10px 0;
 }
 
-/* --- Terminal Box --- */
 .code-container {
   background: rgb(48, 48, 48);
   border: 1px solid #ccc;
-  padding: 10px 10px 10px 45px; /* Extra left pad for line numbers */
+  padding: 10px;
   flex-grow: 1; 
   display: flex;
   flex-direction: column;
@@ -56,7 +53,27 @@ hr {
   width: 100%;
   overflow-y: auto; 
   margin-bottom: 5px;
-  counter-reset: line-number; /* Initialize the count */
+  /* Initialize line counter */
+  counter-reset: line-number;
+}
+
+.terminal-line {
+  display: flex; /* Keeps the number and text on one horizontal line */
+  align-items: flex-start;
+  margin: 0;
+  width: 100%;
+}
+
+/* THE LINE NUMBER: Lives outside the typing animation box */
+.terminal-line::before {
+  counter-increment: line-number;
+  content: counter(line-number);
+  color: #666;
+  width: 3ch; /* Fixed width for numbers */
+  margin-right: 1ch;
+  text-align: right;
+  flex-shrink: 0; /* Prevents number from squishing */
+  user-select: none;
 }
 
 .terminal-text {
@@ -64,35 +81,23 @@ hr {
   margin: 0;
   font-size: clamp(16px, 4.5vw, 20px);
   white-space: nowrap;
-  overflow: hidden;
+  overflow: hidden; /* This hides the text while typing */
   display: inline-block;
   position: relative;
-  vertical-align: bottom;
   width: 0;
-  counter-increment: line-number; /* Count each line */
+  /* Animation */
   animation: typing 1.5s steps(var(--char-count, 20), end) forwards;
 }
 
-/* --- Line Numbers --- */
-.terminal-text::before {
-  content: counter(line-number);
-  position: absolute;
-  left: -35px; /* Positioned in the container's left padding */
-  width: 25px;
-  text-align: right;
-  color: #666; /* Subtle grey for numbers */
-  font-size: 0.9em;
-  pointer-events: none;
-}
-
-/* --- The Caret (Only on the last line) --- */
-.terminal-text:last-child::after {
+/* THE CARET: Positioned relative to the terminal-text box */
+.terminal-text::after {
   content: '█';
   position: absolute;
   right: 0;
   width: 1ch;
   color: white;
-  /* Solid during typing (1.5s), then blinks */
+  background: white;
+  visibility: visible; /* Ensures it's not hidden by parent overflow */
   animation: blink 1s step-start infinite 1.5s;
 }
 
@@ -106,7 +111,6 @@ hr {
   50% { opacity: 0; }
 }
 
-/* --- Footer --- */
 footer {
   font-size: 14px;
   color: white;
