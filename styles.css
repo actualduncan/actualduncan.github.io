@@ -74,4 +74,31 @@ hr {
 }
 
 /* THE CARET: A perfect block that doesn't grow */
-.terminal-
+.terminal-text::after {
+  content: '█';
+  position: absolute;
+  right: 0;
+  width: 1ch; /* Stays exactly one character wide */
+  color: white;
+  background: white; /* Ensures it looks like a solid block */
+  
+  /* No blink while typing (stays solid for 1.5s), then blinks */
+  animation: blink 1s step-start infinite 1.5s;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: calc(var(--char-count) * 1ch); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+footer {
+  font-size: 14px;
+  color: white;
+  text-align: left;
+  padding: 0;
+}
