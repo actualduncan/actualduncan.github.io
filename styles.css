@@ -24,6 +24,29 @@ h1 {
   line-height: 0.75; 
 }
 
+.rainbow {
+  /* The classic Apple color bars */
+  background: linear-gradient(
+    to bottom, 
+    #51ae32 0%, #51ae32 16.6%, 
+    #f7831c 16.6%, #f7831c 33.3%, 
+    #e23838 33.3%, #e23838 50%, 
+    #973999 50%, #973999 66.6%, 
+    #009cdf 66.6%, #009cdf 83.3%, 
+    #fdd835 83.3%, #fdd835 100%
+  );
+  
+  /* This tricks the browser into putting the background INSIDE the text */
+  -webkit-background-clip: text;
+  background-clip: text;
+  
+  /* Makes the actual letter color transparent so the gradient shows through */
+  color: transparent;
+  
+  /* Keeps the pixel font crisp */
+  display: inline-block;
+}
+
 .container {
   display: flex;
   margin-top: -8px; 
