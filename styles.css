@@ -5,6 +5,16 @@ body {
   color: white;
   font-family: 'VT323', monospace;
   font-size: 22px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+hr {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 20px 0;
+  box-sizing: border-box;
 }
 h1 {
   padding: 0px;
@@ -16,19 +26,23 @@ h1 {
   line-height: 30px;
 }
 .code-container {
+  display:flex;
+  flex-grow:1;
   background: rgb(48, 48, 48);
   border: 1px solid #ccc;
-  max-height: 45vh;
   width: auto;
   font-size: 14px;
-  padding: 1vh 0
+  align-items: flex-end;
 }
 .terminal-text {
   --char-count: 0;
   overflow: hidden;
   white-space: nowrap;
   display: inline-block;
-  border-right: 8px solid white; 
+  border-right: 8px solid white;
+  padding: 4px;
+  display: flex;
+  align-self: flex-end;
   animation: 
     typing 1.5s steps(var(--char-count, 20), end),
     blink 1s step-end infinite;
