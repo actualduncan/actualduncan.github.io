@@ -25,27 +25,28 @@ h1 {
 }
 
 .rainbow {
-  /* The classic Apple color bars */
+  /* Ultra-bright neon palette at a 135-degree angle */
   background: linear-gradient(
-    to bottom, 
-    #51ae32 0%, #51ae32 16.6%, 
-    #f7831c 16.6%, #f7831c 33.3%, 
-    #e23838 33.3%, #e23838 50%, 
-    #973999 50%, #973999 66.6%, 
-    #009cdf 66.6%, #009cdf 83.3%, 
-    #fdd835 83.3%, #fdd835 100%
+    135deg, 
+    #ff0000 0%, #ff0000 16.6%, 
+    #ff8000 16.6%, #ff8000 33.3%, 
+    #ffff00 33.3%, #ffff00 50%, 
+    #00ff00 50%, #00ff00 66.6%, 
+    #00ffff 66.6%, #00ffff 83.3%, 
+    #ff00ff 83.3%, #ff00ff 100%
   );
   
-  /* This tricks the browser into putting the background INSIDE the text */
+  /* The "Magic" that puts the color in the text */
   -webkit-background-clip: text;
   background-clip: text;
-  
-  /* Makes the actual letter color transparent so the gradient shows through */
   color: transparent;
   
-  /* Keeps the pixel font crisp */
+  /* Ensure the gradient stretches across the whole word */
   display: inline-block;
+  background-size: 200% 200%; /* Makes the diagonal lines look longer/sleeker */
+  background-position: center;
 }
+
 
 .container {
   display: flex;
