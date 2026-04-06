@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Inter');
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+/* Force borders and padding to stay inside the width */
 * {
   box-sizing: border-box;
 }
@@ -8,50 +10,70 @@ body {
   background-color: #202020;
   color: white;
   font-family: 'VT323', monospace;
-  font-size: 22px;
+  /* Font scales between 18px and 22px based on screen size */
+  font-size: clamp(18px, 4vw, 22px);
   display: flex;
   flex-direction: column;
-  min-height: 80%;
-  max-height: 80%;
-  overflow-y: hidden;
+  /* Use dvh to account for mobile browser address bars */
+  min-height: 100dvh;
+  max-height: 100dvh;
+  margin: 0;
+  padding: 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
+
+h1 {
+  margin: 0;
+  padding: 0;
+  /* Scales header so it doesn't dwarf the screen on mobile */
+  font-size: clamp(24pt, 10vw, 30pt);
+  line-height: 1.1;
+  text-align: left;
+}
+
 hr {
   width: 100%;
   border: 0;
   border-top: 1px solid #ccc;
   margin: 20px 0;
-  box-sizing: border-box;
 }
-h1 {
-  padding: 0px;
-  margin: 0;
-  align-items:left;
-  margin: 0;
-  padding: 0;
-  font-size: 30pt;
-  line-height: 30px;
+
+.content {
+  width: 100%;
+  max-width: 600px; /* Limits desktop width but stays 100% on mobile */
+  margin: 0 auto;
+  position: relative;
 }
+
 .code-container {
-  display:flex;
-  flex-grow:1;
+  display: flex;
+  flex-grow: 1;
   background: rgb(48, 48, 48);
   border: 1px solid #ccc;
-  width: auto;
   font-size: 14px;
   align-items: flex-end;
+  padding: 10px;
+  /* CRITICAL: Prevents terminal text from pushing the box off-screen */
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  min-width: 0; 
 }
+
 .terminal-text {
   --char-count: 0;
   overflow: hidden;
   white-space: nowrap;
   display: inline-block;
-  border-right: 8px solid white;
+  border-right: 4px solid white; /* Thinner cursor for mobile */
   padding: 4px;
-  display: flex;
   align-self: flex-end;
   animation: 
     typing 1.5s steps(var(--char-count, 20), end),
     blink 1s step-end infinite;
+  /* Prevents text from being wider than the container */
+  max-width: 100%;
 }
 
 @keyframes typing {
@@ -65,24 +87,32 @@ h1 {
 }
 
 .container {
-  line-height: 8px;
+  line-height: 1.2;
   display: flex;
-
+  width: 100%;
 }
+
 .container div {
-  margin-top: 0;
-  margin-left: 4px;
-  padding: 0px;
+  margin-left: 8px;
+  padding: 0;
+  display: flex;
   align-items: center;
 }
 
+/* Vertical line adjustment */
 .vl {
   position: absolute;
-  left: 5%;
+  left: 0;
   border-right: 2px solid white;
   height: 100%;
 }
 
-.content {
-  width: 300px
+/* Media Query for tight screens */
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  .container {
+    padding-left: 10px; /* Space for the .vl line */
+  }
 }
