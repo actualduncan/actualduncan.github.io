@@ -15,6 +15,34 @@ h1 {
   font-size: 30pt;
   line-height: 30px;
 }
+.code-container {
+  background: rgb(48, 48, 48);
+  border: 1px solid #ccc;
+  max-height: 45vh;
+  width: auto;
+  font-size: 14px;
+  padding: 1vh 0
+}
+.terminal-text {
+  --char-count: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  border-right: 8px solid white; 
+  animation: 
+    typing 1.5s steps(var(--char-count, 20), end),
+    blink 1s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: calc(var(--char-count) * 1ch); }
+}
+
+@keyframes blink {
+  from, to { border-right-color: transparent; }
+  50% { border-right-color: white; }
+}
 
 .container {
   line-height: 8px;
