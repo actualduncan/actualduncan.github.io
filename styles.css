@@ -53,39 +53,42 @@ hr {
   width: 100%;
   overflow: hidden;
   margin-bottom: 5px;
+  position: relative;
 }
 
+/* We use a wrapper so the blinker can sit outside the 'hidden' overflow */
 .terminal-text {
-  --char-count: 0;
   margin: 0;
   font-size: clamp(16px, 4.5vw, 20px);
-  white-space: nowrap;
   display: inline-block;
   vertical-align: bottom;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0; 
   position: relative;
-  
-  /* THE FIX: Start with the text hidden using a clip mask */
-  clip-path: inset(0 100% 0 0); 
-  animation: typing-mask 1.5s steps(var(--char-count, 20), end) forwards;
+  /* The forwards keeps it open */
+  animation: typing 1.5s steps(var(--char-count, 1), end) forwards;
 }
 
-/* The Blinker needs to move with the "reveal" */
+/* THE FIX: Anchor the blinker to the right edge of the expanding box */
 .terminal-text::after {
   content: '█'; 
   position: absolute;
-  right: -1ch; /* Stays at the edge of the reveal */
+  right: 0;
+  /* Shift it slightly so it doesn't overlap the last char */
+  transform: translateX(100%); 
   animation: blink 1s step-start infinite;
+  visibility: visible !important;
 }
 
-/* This slides the "window" open from left to right */
-@keyframes typing-mask {
-  from { clip-path: inset(0 100% 0 0); }
-  to { clip-path: inset(0 0 0 0); }
+@keyframes typing {
+  from { width: 0; }
+  to { width: calc(var(--char-count) * 1ch); }
 }
 
 @keyframes blink {
-  0%, 100% { visibility: visible; }
-  50% { visibility: hidden; }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 footer {
