@@ -53,37 +53,45 @@ hr {
   width: 100%;
   overflow: hidden;
   margin-bottom: 5px;
-  position: relative;
 }
 
-/* We use a wrapper so the blinker can sit outside the 'hidden' overflow */
 .terminal-text {
   margin: 0;
   font-size: clamp(16px, 4.5vw, 20px);
-  display: inline-block;
-  vertical-align: bottom;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 0; 
   position: relative;
-  /* The forwards keeps it open */
-  animation: typing 1.5s steps(var(--char-count, 1), end) forwards;
+  display: inline-block;
+  white-space: nowrap;
+  color: white;
 }
 
-/* THE FIX: Anchor the blinker to the right edge of the expanding box */
-.terminal-text::after {
-  content: '█'; 
+/* THE CURTAIN (Hides the text) */
+.terminal-text::before {
+  content: "";
   position: absolute;
+  top: 0;
+  left: 0;
   right: 0;
-  /* Shift it slightly so it doesn't overlap the last char */
-  transform: translateX(100%); 
-  animation: blink 1s step-start infinite;
-  visibility: visible !important;
+  bottom: 0;
+  background: rgb(48, 48, 48); /* Matches code-container background */
+  /* This moves the curtain to the right */
+  animation: reveal 1.5s steps(var(--char-count, 20), end) forwards;
 }
 
-@keyframes typing {
-  from { width: 0; }
-  to { width: calc(var(--char-count) * 1ch); }
+/* THE BLINKER (Attached to the front of the curtain) */
+.terminal-text::after {
+  content: "█";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  animation: 
+    reveal 1.5s steps(var(--char-count, 20), end) forwards,
+    blink 1s step-start infinite;
+}
+
+@keyframes reveal {
+  from { left: 0; }
+  to { left: 100%; }
 }
 
 @keyframes blink {
