@@ -9,7 +9,7 @@ body {
   color: white;
   font-family: 'VT323', monospace;
   margin: 0;
-  padding: 20px;
+  padding: 10px; /* Reduced outer padding */
   display: flex;
   flex-direction: column;
   min-height: 100dvh; 
@@ -20,19 +20,18 @@ h1 {
   padding: 0;
   margin: 0;
   font-size: clamp(30pt, 12vw, 50pt); 
-  line-height: 0.9; /* Pulls the "box" tight around the letters */
+  line-height: 0.8; /* Shrinks the text box height */
 }
 
 .container {
   display: flex;
-  margin-top: 0; /* Keeps links immediately under the H1 */
+  margin-top: -4px; /* Pulls links UP toward the H1 */
   padding: 0;
-  font-size: clamp(16px, 5vw, 22px); 
+  font-size: clamp(14px, 4.5vw, 20px); 
 }
 
 .container div {
-  margin-right: 12px; /* Controls the horizontal gap between Home, Blog, etc. */
-  margin-left: 0;
+  margin-right: 8px; /* Tightened gap between links */
   padding: 0;
 }
 
@@ -40,20 +39,20 @@ hr {
   width: 100%;
   border: 0;
   border-top: 1px solid #ccc;
-  margin: 15px 0;
+  margin: 10px 0; /* Reduced vertical space around the line */
 }
 
 .code-container {
   background: rgb(48, 48, 48);
   border: 1px solid #ccc;
-  padding: 10px;
+  padding: 8px; /* Less internal padding */
   flex-grow: 1; 
   display: flex;
   flex-direction: column;
   justify-content: flex-end; 
   width: 100%;
   overflow: hidden;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .terminal-text {
@@ -61,7 +60,7 @@ hr {
   font-size: clamp(16px, 4.5vw, 20px);
   white-space: pre-wrap; 
   word-break: break-word;
-  display: inline; /* Keeps the cursor attached to the last word */
+  display: inline; 
 }
 
 /* The Cursor */
@@ -69,18 +68,17 @@ hr {
   content: '█'; 
   margin-left: 2px;
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: baseline;
   animation: blink 1s step-start infinite;
 }
 
 footer {
-  font-size: 16px;
+  font-size: 14px;
   color: white;
   text-align: left;
-  padding-top: 5px;
+  padding: 0;
 }
 
-/* More robust blinking method */
 @keyframes blink {
   0%, 100% { visibility: visible; }
   50% { visibility: hidden; }
