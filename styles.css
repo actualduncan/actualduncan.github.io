@@ -16,6 +16,7 @@ body {
   overflow-x: hidden;
 }
 
+/* --- Header & Navigation --- */
 h1 {
   padding: 0;
   margin: 0;
@@ -25,13 +26,13 @@ h1 {
 
 .container {
   display: flex;
-  margin-top: -8px; 
+  margin-top: -8px; /* Tight grip to the H1 */
   padding: 0;
   font-size: clamp(14px, 4.5vw, 20px); 
 }
 
 .container div {
-  margin-right: 4px; 
+  margin-right: 4px; /* Links almost touching */
   padding: 0;
 }
 
@@ -42,10 +43,11 @@ hr {
   margin: 10px 0;
 }
 
+/* --- Terminal Box --- */
 .code-container {
   background: rgb(48, 48, 48);
   border: 1px solid #ccc;
-  padding: 10px;
+  padding: 10px 10px 10px 45px; /* Extra left pad for line numbers */
   flex-grow: 1; 
   display: flex;
   flex-direction: column;
@@ -54,35 +56,43 @@ hr {
   width: 100%;
   overflow-y: auto; 
   margin-bottom: 5px;
+  counter-reset: line-number; /* Initialize the count */
 }
 
 .terminal-text {
   --char-count: 0;
   margin: 0;
   font-size: clamp(16px, 4.5vw, 20px);
-  white-space: nowrap; /* Required for the width reveal to work */
+  white-space: nowrap;
   overflow: hidden;
   display: inline-block;
   position: relative;
   vertical-align: bottom;
-  
-  /* Initial state: Hidden */
   width: 0;
-  
-  /* Animation: Types over 1.5s */
+  counter-increment: line-number; /* Count each line */
   animation: typing 1.5s steps(var(--char-count, 20), end) forwards;
 }
 
-/* THE CARET: A perfect block that doesn't grow */
-.terminal-text::after {
+/* --- Line Numbers --- */
+.terminal-text::before {
+  content: counter(line-number);
+  position: absolute;
+  left: -35px; /* Positioned in the container's left padding */
+  width: 25px;
+  text-align: right;
+  color: #666; /* Subtle grey for numbers */
+  font-size: 0.9em;
+  pointer-events: none;
+}
+
+/* --- The Caret (Only on the last line) --- */
+.terminal-text:last-child::after {
   content: '█';
   position: absolute;
   right: 0;
-  width: 1ch; /* Stays exactly one character wide */
+  width: 1ch;
   color: white;
-  background: white; /* Ensures it looks like a solid block */
-  
-  /* No blink while typing (stays solid for 1.5s), then blinks */
+  /* Solid during typing (1.5s), then blinks */
   animation: blink 1s step-start infinite 1.5s;
 }
 
@@ -96,6 +106,7 @@ hr {
   50% { opacity: 0; }
 }
 
+/* --- Footer --- */
 footer {
   font-size: 14px;
   color: white;
