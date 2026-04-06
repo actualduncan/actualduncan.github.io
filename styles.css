@@ -39,12 +39,10 @@ hr {
   margin: 10px 0;
 }
 
-/* --- The Terminal Box --- */
 .code-container {
   background: rgb(48, 48, 48);
   border: 1px solid #ccc;
-  /* Reduced left padding to 30px to bring numbers closer to the edge */
-  padding: 15px 10px 15px 30px; 
+  padding: 15px; /* Clean padding since numbers are gone */
   flex-grow: 1; 
   display: flex;
   flex-direction: column;
@@ -53,46 +51,28 @@ hr {
   width: 100%;
   overflow-y: auto; 
   margin-bottom: 5px;
-  counter-reset: line-number;
 }
 
 .terminal-line {
-  display: flex;
+  display: block; /* Stacks paragraphs vertically */
   width: 100%;
-  position: relative;
-  margin-bottom: 2px;
-}
-
-/* Line Numbers: Tighter to the left edge */
-.terminal-line::before {
-  counter-increment: line-number;
-  content: counter(line-number);
-  position: absolute;
-  /* Moves numbers closer to the left border */
-  left: -22px; 
-  color: #666;
-  width: 2ch;
-  text-align: right;
-  font-size: 0.9em;
-  user-select: none;
+  margin-bottom: 4px;
 }
 
 .terminal-text {
-  --char-count: 0;
+  --char-count: 0; /* JS must update this for EACH line */
   margin: 0;
   font-size: clamp(16px, 4.5vw, 20px);
   white-space: nowrap;
   overflow: hidden;
-  /* Changed to block to ensure vertical stacking */
-  display: block; 
+  display: inline-block;
   position: relative;
   width: 0;
-  /* Add 1ch padding so the caret has room to exist inside the box */
-  padding-right: 1.2ch; 
+  padding-right: 1ch; /* Space for the caret */
   animation: typing 1s steps(var(--char-count, 20), end) forwards;
 }
 
-/* THE CARET: Riding the right edge of the typed width */
+/* Caret only on the very last paragraph in the container */
 .terminal-line:last-child .terminal-text::after {
   content: '█';
   position: absolute;
@@ -100,14 +80,13 @@ hr {
   width: 1ch;
   color: white;
   background: white;
-  /* Blinks after 1s (matching typing duration) */
   animation: blink 1s step-start infinite 1s;
 }
 
 @keyframes typing {
   from { width: 0; }
-  /* Calculation includes the padding for the caret */
-  to { width: calc((var(--char-count) * 1ch) + 1.2ch); }
+  /* Calculates width based on the unique char-count of each line */
+  to { width: calc(var(--char-count) * 1ch + 1ch); }
 }
 
 @keyframes blink {
