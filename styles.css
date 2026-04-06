@@ -25,10 +25,89 @@ h1 {
 
 .container {
   display: flex;
-  margin-top: -6px; /* Pulled up even closer to the H1 base */
+  margin-top: -6px; 
   padding: 0;
   font-size: clamp(14px, 4.5vw, 20px); 
 }
+
+.container div {
+  margin-right: 4px; 
+  padding: 0;
+}
+
+hr {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 8px 0; 
+}
+
+.code-container {
+  background: rgb(48, 48, 48);
+  border: 1px solid #ccc;
+  padding: 8px;
+  flex-grow: 1; 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; 
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.terminal-text {
+  --char-count: 0;
+  margin: 0;
+  font-size: clamp(16px, 4.5vw, 20px);
+  white-space: nowrap; /* Keeps typing on one line initially */
+  overflow: hidden;
+  display: inline-block; /* Required for width animation */
+  vertical-align: bottom;
+  
+  /* The Typing Animation */
+  animation: 
+    typing 1.5s steps(var(--char-count, 20), end) forwards;
+}
+
+/* After typing finishes, we let the text wrap if it's on mobile */
+.terminal-text {
+  animation: 
+    typing 1.5s steps(var(--char-count, 20), end) forwards;
+}
+
+.terminal-text::after {
+  content: '█'; 
+  margin-left: 2px;
+  display: inline-block;
+  vertical-align: baseline;
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: calc(var(--char-count) * 1ch); }
+}
+
+@keyframes blink {
+  0%, 100% { visibility: visible; }
+  50% { visibility: hidden; }
+}
+
+footer {
+  font-size: 14px;
+  color: white;
+  text-align: left;
+  padding: 0;
+}
+
+/* On very small screens, we allow wrapping after the animation is done */
+@media (max-width: 480px) {
+  .terminal-text {
+    /* If text is longer than screen, this prevents horizontal scroll after typing */
+    max-width: 100%; 
+  }
+}
+
 
 .container div {
   margin-right: 4px; /* Tiny gap so they almost touch */
