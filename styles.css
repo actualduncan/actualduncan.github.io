@@ -20,17 +20,73 @@ h1 {
   padding: 0;
   margin: 0;
   font-size: clamp(30pt, 12vw, 50pt); 
-  line-height: 30px; /* Snugs it up against the links */
+  line-height: 1; /* Fixes the clipping overlap */
 }
 
 .container {
-  line-height: 8px; /* Restored your original tight line-height */
+  line-height: 1; /* Changed from 8px to prevent clipping */
   display: flex;
-  margin-top: 0; /* Kills any extra space above */
+  margin-top: 4px; /* Keeps it tight to the H1 but not touching */
   font-size: clamp(16px, 5vw, 22px); 
 }
 
 .container div {
+  margin-top: 0;
+  margin-left: 4px; 
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+hr {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 20px 0;
+}
+
+.code-container {
+  background: rgb(48, 48, 48);
+  border: 1px solid #ccc;
+  padding: 10px;
+  flex-grow: 1; 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; 
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.terminal-text {
+  margin: 0;
+  font-size: clamp(16px, 4.5vw, 20px);
+  white-space: pre-wrap; 
+  word-break: break-word; /* break-word looks cleaner than break-all */
+  /* Removed border-right */
+}
+
+/* NEW: The perfect terminal cursor */
+.terminal-text::after {
+  content: '█'; 
+  margin-left: 4px;
+  display: inline-block;
+  animation: blink 1s step-end infinite;
+}
+
+footer {
+  font-size: 16px;
+  color: white;
+  text-align: left;
+  padding-top: 5px;
+}
+
+/* Switched from border-color to opacity so the character blinks */
+@keyframes blink {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
   margin-top: 0;
   margin-left: 4px; /* Restored your original spacing */
   padding: 0;
