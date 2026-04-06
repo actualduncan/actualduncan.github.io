@@ -63,7 +63,6 @@ hr {
 }
 
 .terminal-text {
-  /* Logic values provided by scripts.js */
   --char-count: 0;
   --delay: 0s;
   --duration: 1s;
@@ -75,14 +74,13 @@ hr {
   display: inline-block;
   position: relative;
   width: 0;
-  visibility: hidden; /* Fully hidden until animation starts */
+  visibility: hidden; 
 
   animation: typing var(--duration, 1s) steps(var(--char-count, 20), end) forwards;
   animation-delay: var(--delay, 0s);
 }
 
 /* --- The Caret Logic --- */
-/* Every line gets a caret while it's actively typing */
 .terminal-text::after {
   content: '█';
   position: absolute;
@@ -92,14 +90,16 @@ hr {
   background: white;
   visibility: hidden;
   
-  animation: caret-logic var(--duration, 1s) step-start forwards;
+  /* Caret only shows DURING the typing duration, then vanishes */
+  animation: caret-active var(--duration, 1s) step-start;
   animation-delay: var(--delay, 0s);
 }
 
-/* ONLY the last line blinks indefinitely after its turn */
+/* ONLY the last line stays visible and blinks after it finishes */
 .terminal-line:last-child .terminal-text::after {
+  /* Overrides the vanish: shows while typing AND blinks forever after */
   animation: 
-    caret-logic var(--duration, 1s) step-start forwards,
+    caret-active var(--duration, 1s) step-start forwards,
     blink 1s step-end infinite;
   animation-delay: var(--delay, 0s), calc(var(--delay) + var(--duration));
 }
@@ -112,15 +112,13 @@ hr {
     visibility: visible;
   }
   to { 
-    /* width accounts for characters + 1.2ch for the caret padding */
     width: calc((var(--char-count) * 1ch) + 1.2ch); 
     padding-right: 1.2ch;
     visibility: visible;
   }
 }
 
-@keyframes caret-logic {
-  /* Show caret while the typing animation is active */
+@keyframes caret-active {
   0%, 100% { visibility: visible; }
 }
 
