@@ -16,6 +16,7 @@ body {
   overflow-x: hidden;
 }
 
+/* --- Header & Nav --- */
 h1 {
   padding: 0;
   margin: 0;
@@ -26,12 +27,11 @@ h1 {
 .container {
   display: flex;
   margin-top: -8px; 
-  padding: 0;
-  font-size: clamp(14px, 4.5vw, 20px); 
 }
 
 .container div {
-  margin-right: 4px; 
+  margin-right: 6px; 
+  font-size: clamp(14px, 4.5vw, 20px); 
 }
 
 hr {
@@ -41,6 +41,7 @@ hr {
   margin: 10px 0;
 }
 
+/* --- The Terminal Box --- */
 .code-container {
   background: rgb(48, 48, 48);
   border: 1px solid #ccc;
@@ -48,57 +49,56 @@ hr {
   flex-grow: 1; 
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; 
+  justify-content: flex-start; /* Stays at the top */
   align-items: flex-start; 
   width: 100%;
   overflow-y: auto; 
   margin-bottom: 5px;
-  /* Initialize line counter */
   counter-reset: line-number;
 }
 
+/* Each line is a row */
 .terminal-line {
-  display: flex; /* Keeps the number and text on one horizontal line */
-  align-items: flex-start;
-  margin: 0;
+  display: flex;
   width: 100%;
+  margin-bottom: 2px;
+  align-items: flex-start;
 }
 
-/* THE LINE NUMBER: Lives outside the typing animation box */
+/* Line Numbers */
 .terminal-line::before {
   counter-increment: line-number;
   content: counter(line-number);
   color: #666;
-  width: 3ch; /* Fixed width for numbers */
-  margin-right: 1ch;
+  width: 4ch;
+  flex-shrink: 0;
   text-align: right;
-  flex-shrink: 0; /* Prevents number from squishing */
+  margin-right: 1.5ch;
   user-select: none;
 }
 
+/* The Typing Text */
 .terminal-text {
   --char-count: 0;
   margin: 0;
   font-size: clamp(16px, 4.5vw, 20px);
   white-space: nowrap;
-  overflow: hidden; /* This hides the text while typing */
+  overflow: hidden;
   display: inline-block;
   position: relative;
   width: 0;
-  /* Animation */
-  animation: typing 1.5s steps(var(--char-count, 20), end) forwards;
+  animation: typing 1s steps(var(--char-count, 20), end) forwards;
 }
 
-/* THE CARET: Positioned relative to the terminal-text box */
-.terminal-text::after {
+/* Only the active (last) line gets the blinking caret */
+.terminal-line:last-child .terminal-text::after {
   content: '█';
   position: absolute;
   right: 0;
   width: 1ch;
   color: white;
   background: white;
-  visibility: visible; /* Ensures it's not hidden by parent overflow */
-  animation: blink 1s step-start infinite 1.5s;
+  animation: blink 1s step-start infinite 1s;
 }
 
 @keyframes typing {
@@ -114,6 +114,5 @@ hr {
 footer {
   font-size: 14px;
   color: white;
-  text-align: left;
-  padding: 0;
+  margin-top: auto;
 }
