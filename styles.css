@@ -31,7 +31,7 @@ h1 {
 }
 
 .container div {
-  margin-right: 4px; /* Links almost touching */
+  margin-right: 4px; 
   padding: 0;
 }
 
@@ -49,7 +49,6 @@ hr {
   flex-grow: 1; 
   display: flex;
   flex-direction: column;
-  /* TERMINAL LOGIC: Start at the top, align left */
   justify-content: flex-start; 
   align-items: flex-start; 
   width: 100%;
@@ -58,38 +57,21 @@ hr {
 }
 
 .terminal-text {
+  --char-count: 0;
   margin: 0;
   font-size: clamp(16px, 4.5vw, 20px);
-  white-space: pre-wrap; 
+  white-space: nowrap; /* Required for the width reveal to work */
   overflow: hidden;
   display: inline-block;
-  width: 0;
-  border-right: none; 
+  position: relative;
+  vertical-align: bottom;
   
-  animation: typing 1s steps(var(--char-count, 20), end) forwards;
+  /* Initial state: Hidden */
+  width: 0;
+  
+  /* Animation: Types over 1.5s */
+  animation: typing 1.5s steps(var(--char-count, 20), end) forwards;
 }
 
-/* Only the active (bottom) line gets the cursor */
-.terminal-text:last-child {
-  border-right: 1ch solid white;
-  animation: 
-    typing 1s steps(var(--char-count, 20), end) forwards,
-    blink 1s step-end infinite 1s; /* Delay ensures it doesn't blink while typing */
-}
-
-@keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
-}
-
-@keyframes blink {
-  from, to { border-color: transparent; }
-  50% { border-color: white; }
-}
-
-footer {
-  font-size: 14px;
-  color: white;
-  text-align: left;
-  padding: 0;
-}
+/* THE CARET: A perfect block that doesn't grow */
+.terminal-
