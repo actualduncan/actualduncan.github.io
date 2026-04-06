@@ -15,7 +15,6 @@ body {
   min-height: 100dvh;
 }
 
-/* --- Header & Nav --- */
 h1 {
   padding: 0;
   margin: 0;
@@ -44,7 +43,8 @@ hr {
 .code-container {
   background: rgb(48, 48, 48);
   border: 1px solid #ccc;
-  padding: 15px 10px 15px 45px; /* Added left gutter for numbers */
+  /* Reduced left padding to 30px to bring numbers closer to the edge */
+  padding: 15px 10px 15px 30px; 
   flex-grow: 1; 
   display: flex;
   flex-direction: column;
@@ -56,50 +56,58 @@ hr {
   counter-reset: line-number;
 }
 
-/* THE FIX: This ensures each paragraph is a new row */
 .terminal-line {
   display: flex;
   width: 100%;
   position: relative;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
-/* Line Numbers (Always visible) */
+/* Line Numbers: Tighter to the left edge */
 .terminal-line::before {
   counter-increment: line-number;
   content: counter(line-number);
   position: absolute;
-  left: -35px; /* Sits in the gutter */
+  /* Moves numbers closer to the left border */
+  left: -22px; 
   color: #666;
-  width: 3ch;
+  width: 2ch;
   text-align: right;
   font-size: 0.9em;
+  user-select: none;
 }
 
-/* The Typing Text Block */
 .terminal-text {
   --char-count: 0;
   margin: 0;
   font-size: clamp(16px, 4.5vw, 20px);
-  white-space: nowrap; /* Animation requires this */
+  white-space: nowrap;
   overflow: hidden;
-  display: inline-block;
+  /* Changed to block to ensure vertical stacking */
+  display: block; 
+  position: relative;
   width: 0;
+  /* Add 1ch padding so the caret has room to exist inside the box */
+  padding-right: 1.2ch; 
   animation: typing 1s steps(var(--char-count, 20), end) forwards;
 }
 
-/* THE CARET: Ride the edge of the text */
+/* THE CARET: Riding the right edge of the typed width */
 .terminal-line:last-child .terminal-text::after {
   content: '█';
-  display: inline-block;
-  margin-left: 2px;
-  vertical-align: bottom;
+  position: absolute;
+  right: 0;
+  width: 1ch;
+  color: white;
+  background: white;
+  /* Blinks after 1s (matching typing duration) */
   animation: blink 1s step-start infinite 1s;
 }
 
 @keyframes typing {
   from { width: 0; }
-  to { width: calc(var(--char-count) * 1ch); }
+  /* Calculation includes the padding for the caret */
+  to { width: calc((var(--char-count) * 1ch) + 1.2ch); }
 }
 
 @keyframes blink {
@@ -110,4 +118,5 @@ hr {
 footer {
   font-size: 14px;
   color: white;
+  margin-top: auto;
 }
