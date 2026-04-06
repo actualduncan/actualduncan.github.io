@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
+/* Basic Reset & Modern Viewport */
 * {
   box-sizing: border-box;
 }
@@ -15,87 +16,8 @@ body {
   min-height: 100dvh;
 }
 
+/* --- Header & Navigation --- */
 h1 {
   padding: 0;
   margin: 0;
-  font-size: clamp(30pt, 12vw, 50pt); 
-  line-height: 0.75; 
-}
-
-.container {
-  display: flex;
-  margin-top: -8px; 
-}
-
-.container div {
-  margin-right: 6px; 
-  font-size: clamp(14px, 4.5vw, 20px); 
-}
-
-hr {
-  width: 100%;
-  border: 0;
-  border-top: 1px solid #ccc;
-  margin: 10px 0;
-}
-
-.code-container {
-  background: rgb(48, 48, 48);
-  border: 1px solid #ccc;
-  padding: 15px; /* Clean padding since numbers are gone */
-  flex-grow: 1; 
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; 
-  align-items: flex-start; 
-  width: 100%;
-  overflow-y: auto; 
-  margin-bottom: 5px;
-}
-
-.terminal-line {
-  display: block; /* Stacks paragraphs vertically */
-  width: 100%;
-  margin-bottom: 4px;
-}
-
-.terminal-text {
-  --char-count: 0; /* JS must update this for EACH line */
-  margin: 0;
-  font-size: clamp(16px, 4.5vw, 20px);
-  white-space: nowrap;
-  overflow: hidden;
-  display: inline-block;
-  position: relative;
-  width: 0;
-  padding-right: 1ch; /* Space for the caret */
-  animation: typing 1s steps(var(--char-count, 20), end) forwards;
-}
-
-/* Caret only on the very last paragraph in the container */
-.terminal-line:last-child .terminal-text::after {
-  content: '█';
-  position: absolute;
-  right: 0;
-  width: 1ch;
-  color: white;
-  background: white;
-  animation: blink 1s step-start infinite 1s;
-}
-
-@keyframes typing {
-  from { width: 0; }
-  /* Calculates width based on the unique char-count of each line */
-  to { width: calc(var(--char-count) * 1ch + 1ch); }
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-footer {
-  font-size: 14px;
-  color: white;
-  margin-top: auto;
-}
+  font-size: clamp(30pt, 12vw
