@@ -12,8 +12,7 @@ body {
   padding: 10px;
   display: flex;
   flex-direction: column;
-  min-height: 100dvh; 
-  overflow-x: hidden;
+  min-height: 100dvh;
 }
 
 /* --- Header & Nav --- */
@@ -45,11 +44,11 @@ hr {
 .code-container {
   background: rgb(48, 48, 48);
   border: 1px solid #ccc;
-  padding: 10px;
+  padding: 15px 10px 15px 45px; /* Added left gutter for numbers */
   flex-grow: 1; 
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Stays at the top */
+  justify-content: flex-start; 
   align-items: flex-start; 
   width: 100%;
   overflow-y: auto; 
@@ -57,47 +56,44 @@ hr {
   counter-reset: line-number;
 }
 
-/* Each line is a row */
+/* THE FIX: This ensures each paragraph is a new row */
 .terminal-line {
   display: flex;
   width: 100%;
-  margin-bottom: 2px;
-  align-items: flex-start;
+  position: relative;
+  margin-bottom: 4px;
 }
 
-/* Line Numbers */
+/* Line Numbers (Always visible) */
 .terminal-line::before {
   counter-increment: line-number;
   content: counter(line-number);
+  position: absolute;
+  left: -35px; /* Sits in the gutter */
   color: #666;
-  width: 4ch;
-  flex-shrink: 0;
+  width: 3ch;
   text-align: right;
-  margin-right: 1.5ch;
-  user-select: none;
+  font-size: 0.9em;
 }
 
-/* The Typing Text */
+/* The Typing Text Block */
 .terminal-text {
   --char-count: 0;
   margin: 0;
   font-size: clamp(16px, 4.5vw, 20px);
-  white-space: nowrap;
+  white-space: nowrap; /* Animation requires this */
   overflow: hidden;
   display: inline-block;
-  position: relative;
   width: 0;
   animation: typing 1s steps(var(--char-count, 20), end) forwards;
 }
 
-/* Only the active (last) line gets the blinking caret */
+/* THE CARET: Ride the edge of the text */
 .terminal-line:last-child .terminal-text::after {
   content: '█';
-  position: absolute;
-  right: 0;
-  width: 1ch;
-  color: white;
-  background: white;
+  display: inline-block;
+  margin-left: 2px;
+  vertical-align: bottom;
   animation: blink 1s step-start infinite 1s;
 }
 
@@ -114,5 +110,4 @@ hr {
 footer {
   font-size: 14px;
   color: white;
-  margin-top: auto;
 }
