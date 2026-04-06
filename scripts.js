@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   lines.forEach((line, index) => {
     const length = line.textContent.length;
     // How long this specific line takes to type (e.g., 0.05s per character)
-    const duration = length * 0.05; 
+    const duration = length * 0.02; 
 
     line.style.setProperty('--char-count', length);
     line.style.setProperty('--delay', `${cumulativeDelay}s`);
