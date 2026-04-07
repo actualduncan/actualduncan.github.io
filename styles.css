@@ -47,7 +47,10 @@ h1 {
   background-position: center;
 }
 
-
+.nav-bar-link {
+  color: inherit; 
+  text-decoration: none;
+}
 .container {
   display: flex;
   margin-top: -8px; 
@@ -99,7 +102,7 @@ hr {
   position: relative;
   width: 0;
   visibility: hidden; 
-
+  white-space: pre;
   animation: typing var(--duration, 1s) steps(var(--char-count, 20), end) forwards;
   animation-delay: var(--delay, 0s);
 }
