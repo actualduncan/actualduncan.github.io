@@ -40,8 +40,18 @@
     .then((res) => res.text())
     .then((text) =>
   {
-  let myParagraph = document.querySelector("#blogText");
-  myParagraph.innerHTML = text; 
+    let myContainer = document.querySelector("#blogText");
+    myContainer.innerHTML = '';
+    const lines = text.split(/\r?n/);
+    lines.forEach(line =>
+      {
+        if(line.trim() !== ''){
+          const p = document.createElement('p');
+          p.classList.add('terminal-text');
+          p.textContent = line;
+          myContainer.appendChild(p);
+        }
+      })
  
   })
   .catch((e)=> console.error(e));
