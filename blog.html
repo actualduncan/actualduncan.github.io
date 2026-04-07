@@ -25,7 +25,7 @@
     <div class="terminal-line">
       <p class="terminal-text"></p>
     </div>
-    <div class="terminal-line">
+    <div class="terminal-line" id="blogText">
       <p class="terminal-text">Sample Blog...</p>
     </div>
     <div class="terminal-line">
@@ -35,7 +35,17 @@
       <p class="terminal-text">--------------------------------------------------------------------------------</p>
     </div>
   </div>
-
+  <script>
+  fetch("./blog_posts/samplepost.md")
+    .then((res) => res.text())
+    .then((text) =>
+  {
+  let myParagraph = document.querySelector("#blogText");
+  myParagraph.innerHTML =text; 
+ 
+  })
+  .catch((e)=> console.error(e));
+  </script>
   <footer>© 2026 Duncan Rendall, All rights reserved.</footer>
 </body>
 </html>
