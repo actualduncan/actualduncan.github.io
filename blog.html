@@ -20,7 +20,7 @@
 
   <div class="code-container">
     <div class="terminal-line">
-      <p class="terminal-text"><-                       2026-04-07 23:12                                 -></-></p>
+      <p class="terminal-text"><-                       <span id="datetime"></span>                            -></-></p>
     </div>
     <div class="terminal-line">
       <p class="terminal-text"></p>
@@ -40,6 +40,9 @@
     .then((res) => res.text())
     .then((text) =>
   {
+    let timeElement = document.querySelector("#datetime");
+    lastModified = new Date (res.headers.get('Last-Modified'));
+    timeElement.innerHTML = lastModified.getUTCDate();
     let myContainer = document.querySelector("#blogText");
     myContainer.innerHTML = '';
     const lines = text.split(/\r?n/);
@@ -55,6 +58,15 @@
  
   })
   .catch((e)=> console.error(e));
+
+
+  function updateTime() {
+    const now = new Date();
+    const timeElement = document/getElementById('datetime');
+    const time = now.toLocaleTimeString();
+    const day = now.toLocaleDateString
+  }
+
   </script>
   <footer>© 2026 Duncan Rendall, All rights reserved.</footer>
 </body>
