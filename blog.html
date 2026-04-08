@@ -25,9 +25,10 @@
     <div class="terminal-line">
       <p class="terminal-text"></p>
     </div>
-    <div class="terminal-line" id="blogText">
+    <div class="terminal-line">
       <p class="terminal-text">Sample Blog...</p>
     </div>
+    <div id="blogText" markdown="1"></div>
     <div class="terminal-line">
       <p class="terminal-text">Woopidy scoop</p>
     </div>
@@ -37,42 +38,66 @@
   </div>
   <script>
   fetch("./blog_posts/samplepost.md")
-    .then((res) => {
+  .then((res) => {
     let timeElement = document.querySelector("#datetime");
-    lastModified = new Date (res.headers.get('Last-Modified'));
-    timeElement.innerHTML = lastModified.getUTCDate();
-    res.text()
-    })
-    .then((text) =>
-  {
-    let timeElement = document.querySelector("#datetime");
-    lastModified = new Date (res.headers.get('Last-Modified'));
-    timeElement.innerHTML = lastModified.getUTCDate();
+    const lastModified = new Date(res.headers.get('Last-Modified'));
+
+    // Helper to add leading zeros
+    const pad = (num) => String(num).padStart(2, '0');
+
+    const day = pad(lastModified.getDate());
+    const month = pad(lastModified.getMonth() + 1); // Months are 0-indexed
+    const year = String(lastModified.getFullYear()).slice(-2); // Get last 2 digits
+    
+    const hours = pad(lastModified.getHours());
+    const minutes = pad(lastModified.getMinutes());
+    const seconds = pad(lastModified.getSeconds());
+
+    // Format: DD-MM-YY HH-MM-SS
+    timeElement.innerHTML = `${day}-${month}-${year} ${hours}-${minutes}-${seconds}`;
+
+    return res.text();
+  })
+  .then((text) => {
     let myContainer = document.querySelector("#blogText");
     myContainer.innerHTML = '';
-    const lines = text.split(/\r?n/);
-    lines.forEach(line =>
-      {
-        if(line.trim() !== ''){
-          const div = document.createElement('div');
-          div.classList.add('terminal-line');
-          const p = div.createElement('p');
-          p.classList.add('terminal-text');
-          p.textContent = line;
-          myContainer.appendChild(p);
-        }
-      });
- 
+    
+    const lines = text.split(/\r?\n/);
+    let cumulativeDelay = 0;
+    const speedPerChar = 0.05; // Seconds per character
+
+    lines.forEach((line) => {
+      if (line.trim() !== '') {
+        const div = document.createElement('div');
+        div.classList.add('terminal-line');
+        
+        const p = document.createElement('p');
+        p.classList.add('terminal-text');
+        p.textContent = line;
+
+        // Calculate timing based on line length
+        const charCount = line.length;
+        const duration = charCount * speedPerChar;
+
+        // Set the CSS variables specifically for this line
+        p.style.setProperty('--char-count', charCount);
+        p.style.setProperty('--delay', `${cumulativeDelay}s`);
+        p.style.setProperty('--duration', `${duration}s`);
+
+        // Increment delay for the next line
+        cumulativeDelay += duration + 0.2; // 0.2s pause between lines
+
+        div.appendChild(p);
+        myContainer.appendChild(div);
+      }
+    });
+
+    // Fire the event AFTER the loop finishes populating the DOM
+    var event = new CustomEvent("BlogLoaded");
+    document.dispatchEvent(event);
   })
-  .catch((e)=> console.error(e));
+  .catch((e) => console.error(e));
 
-
-  function updateTime() {
-    const now = new Date();
-    const timeElement = document/getElementById('datetime');
-    const time = now.toLocaleTimeString();
-    const day = now.toLocaleDateString
-  }
 
   </script>
   <footer>© 2026 Duncan Rendall, All rights reserved.</footer>

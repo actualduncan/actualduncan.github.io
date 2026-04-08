@@ -1,4 +1,5 @@
-document.addEventListener("DOMContentLoaded", () => {
+function CalculateAnims()
+{
   const lines = document.querySelectorAll('.terminal-text');
   let cumulativeDelay = 0;
 
@@ -14,4 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // The next line starts only after this one finishes
     cumulativeDelay += duration;
   });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  CalculateAnims()
+});
+
+document.addEventListener("BlogLoaded", () => {
+  CalculateAnims()
 });
