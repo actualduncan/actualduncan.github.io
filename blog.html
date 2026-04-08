@@ -86,7 +86,7 @@
 
         // Increment delay for the next line
         cumulativeDelay += duration + 0.2; // 0.2s pause between lines
-
+        p.setAttribute('markdown', '1');
         div.appendChild(p);
         myContainer.appendChild(div);
       }
