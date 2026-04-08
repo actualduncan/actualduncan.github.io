@@ -13,7 +13,8 @@ body {
   padding: 10px;
   display: flex;
   flex-direction: column;
-  min-height: 100dvh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* --- Header & Navigation --- */
@@ -83,13 +84,26 @@ hr {
   border: 1px solid #ccc;
   padding: 15px;
   flex-grow: 1; 
-  display: flex;
+  display: block;
   flex-direction: column;
   justify-content: flex-start; 
   align-items: flex-start; 
   width: 100%;
-  overflow-y: auto; 
+  overflow-y: auto;
+  overflow-x: hidden;
   margin-bottom: 5px;
+}
+/* Custom Scrollbar for the terminal */
+.code-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.code-container::-webkit-scrollbar-track {
+  background:  rgb(48,48,48);}
+
+.code-container::-webkit-scrollbar-thumb {
+  background: #202020;
+  border-radius: 2px;
 }
 
 .terminal-line {
