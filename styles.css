@@ -33,9 +33,10 @@ h1 {
 .rightarrow {
   float:none
 }
-
 .rainbow {
-  /* Ultra-bright neon palette at a 135-degree angle */
+  position: relative;
+  display: inline-block;
+  
   background: linear-gradient(
     135deg, 
     #ff0000 0%, #ff0000 16.6%, 
@@ -45,19 +46,57 @@ h1 {
     #00ffff 66.6%, #00ffff 83.3%, 
     #ff00ff 83.3%, #ff00ff 100%
   );
-  
-  /* The "Magic" that puts the color in the text */
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   
-  /* Ensure the gradient stretches across the whole word */
-  display: inline-block;
-  background-size: 200% 200%; /* Makes the diagonal lines look longer/sleeker */
-  background-position: center;
+  background-size: 200% 200%;
+  animation: shine 1s ease-out forwards; 
 }
 
-.nav-bar-link {
+.rainbow::after {
+  content: "";
+  position: absolute;
+  /* Adjusting position for a smaller star */
+  top: 1px;    
+  right: 2px;
+  /* Making it smaller */
+  width: 8px;
+  height: 8px;
+  background: #ffff00; /* Yellow twinkle */
+  
+  /* A sharp 4-pointed star shape */
+  clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+  
+  opacity: 0;
+  transform: scale(0);
+  
+  /* Animation plays once and disappears */
+  animation: twinkle 0.9s ease-in-out 0.9s forwards;
+}
+
+/* 1. The Swipe Shine */
+@keyframes shine {
+  0% { background-position: 200% 0%; }
+  100% { background-position: 100% 0%; }
+}
+
+/* 2. The Star Twinkle (Appear then Disappear) */
+@keyframes twinkle {
+  0% { 
+    transform: scale(0) rotate(0deg); 
+    opacity: 0; 
+  }
+  50% { 
+    transform: scale(4) rotate(90deg); 
+    opacity: 1; 
+    box-shadow: 0 0 5px #ffff00;
+  }
+  100% { 
+    transform: scale(0) rotate(180deg); 
+    opacity: 0; 
+  }
+}.nav-bar-link {
   color: inherit; 
   text-decoration: none;
 }
