@@ -24,6 +24,15 @@ h1 {
   line-height: 0.75; 
 }
 
+.leftarrow {
+  position:static;
+  text-indent:0px;
+}
+
+.rightarrow {
+  float:none
+}
+
 .rainbow {
   /* Ultra-bright neon palette at a 135-degree angle */
   background: linear-gradient(
@@ -84,7 +93,9 @@ hr {
 }
 
 .terminal-line {
-  display: block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   margin-bottom: 4px;
 }
