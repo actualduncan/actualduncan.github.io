@@ -22,7 +22,8 @@ h1 {
   padding: 0;
   margin: 0;
   font-size: clamp(30pt, 12vw, 50pt); 
-  line-height: 0.75; 
+  line-height: 0.75;
+  cursor:default;
 }
 
 .leftarrow {
