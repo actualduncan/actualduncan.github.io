@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{cssPath}}">
+  <script src="{{jsPath}}" defer></script>
+  <title>{{title}}</title>
+</head>
+<body>
+
+  <!-- Tab Bar -->
+  <div class="tabbar">
+    <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">☰</button>
+{{tabbar}}
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">Explorer</div>
+    <div class="sidebar-folder">
+      <div class="sidebar-folder-label">
+        <span class="sidebar-folder-arrow">▾</span>
+        <span>actualduncan</span>
+      </div>
+      <div class="sidebar-folder-children">
+{{sidebarItems}}
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar Overlay (Mobile) -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+  <!-- Main Content -->
+  <div class="main">
+{{content}}
+  </div>
+
+</body>
+</html>

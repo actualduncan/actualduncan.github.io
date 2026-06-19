@@ -2,100 +2,65 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
-  <script type="text/javascript" src="scripts.js" defer></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <title>actualduncan</title>
+  <script src="scripts.js" defer></script>
+  <title>actualduncan — blog</title>
 </head>
 <body>
-  <h1><span class="rainbow">actual</span>duncan</h1>
 
-  <div class="container">
-    <div style="color:grey"><a href="/" class="nav-bar-link">Home</a></div>
-    <div><a href="blog" class="nav-bar-link">Blog</a></div>
-    <div style="color:grey"><a href="projects" class="nav-bar-link">Projects</a></div>
+  <!-- Tab Bar -->
+  <div class="tabbar">
+    <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">☰</button>
+    <a href="/" class="tab"><span class="tab-icon">○</span> about.h</a>
+    <a href="blog.html" class="tab tab--active"><span class="tab-icon">●</span> blog/</a>
+
   </div>
 
-  <hr>
-
-  <div class="code-container">
-    <div class="terminal-line">
-      <span class="leftarrow"><-</span>
-      <p class="terminal-text"><span id="datetime"></span></p>
-      <span class="rightarrow">-></span>
-    </div>
-    <div id="blogText"></div>
-    <div class="terminal-line">
-      <p class="terminal-text">Woopidy scoop</p>
-    </div>
-    <div class="terminal-line">
-      <p class="terminal-text">--------------------------------------------------------------------------------</p>
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">Explorer</div>
+    <div class="sidebar-folder">
+      <div class="sidebar-folder-label">
+        <span class="sidebar-folder-arrow">▾</span>
+        <span>actualduncan</span>
+      </div>
+      <div class="sidebar-folder-children">
+        <a href="/" class="sidebar-file">
+          <span class="sidebar-file-icon">📄</span> about.h
+        </a>
+        <div class="sidebar-folder">
+          <a href="blog.html" class="sidebar-folder-label">
+            <span class="sidebar-folder-arrow">▾</span>
+            <span>blog</span>
+          </a>
+          <div class="sidebar-folder-children">
+            <a href="posts/hello_world.html" class="sidebar-file">
+              <span class="sidebar-file-icon">📝</span> hello_world.cpp
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <script>
-  fetch("./blog_posts/samplepost.md")
-  .then((res) => {
-    let timeElement = document.querySelector("#datetime");
-    const lastModified = new Date(res.headers.get('Last-Modified'));
 
-    // Helper to add leading zeros
-    const pad = (num) => String(num).padStart(2, '0');
+  <!-- Sidebar Overlay (Mobile) -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
 
-    const day = pad(lastModified.getDate());
-    const month = pad(lastModified.getMonth() + 1); // Months are 0-indexed
-    const year = String(lastModified.getFullYear()).slice(-2); // Get last 2 digits
-    
-    const hours = pad(lastModified.getHours());
-    const minutes = pad(lastModified.getMinutes());
-    const seconds = pad(lastModified.getSeconds());
+  <!-- Main Content -->
+  <div class="main">
+    <h1>Blog</h1>
+    <p>Posts about engine programming, C++, and whatever else I'm working on.</p>
 
-    // Format: DD-MM-YY HH-MM-SS
-    timeElement.innerHTML = `${day}-${month}-${year} ${hours}-${minutes}-${seconds}`;
+    <hr>
 
-    return res.text();
-  })
-  .then((text) => {
-    let myContainer = document.querySelector("#blogText");
-    myContainer.innerHTML = '';
-    
-    const lines = text.split(/\r?\n/);
-    let cumulativeDelay = 0;
-    const speedPerChar = 0.05; // Seconds per character
+    <ul class="post-list">
+      <li>
+        <a href="posts/hello_world.html">hello_world</a>
+        <span class="post-date">2026-06-19</span>
+      </li>
+    </ul>
+  </div>
 
-    lines.forEach((line) => {
-      if (line.trim() !== '') {
-        const div = document.createElement('div');
-        
-        const p = document.createElement('p');
-        p.innerHTML = marked.parse(line);
-
-        // Calculate timing based on line length
-        const charCount = line.length;
-        const duration = charCount * speedPerChar;
-
-        // Set the CSS variables specifically for this line
-        p.style.setProperty('--char-count', charCount);
-        p.style.setProperty('--delay', `${cumulativeDelay}s`);
-        p.style.setProperty('--duration', `${duration}s`);
-
-        // Increment delay for the next line
-        cumulativeDelay += duration + 0.2; // 0.2s pause between lines
-        p.setAttribute('markdown', '1');
-        div.appendChild(p);
-        myContainer.appendChild(div);
-      }
-    });
-
-    // Fire the event AFTER the loop finishes populating the DOM
-    var event = new CustomEvent("BlogLoaded");
-    document.dispatchEvent(event);
-  })
-  .catch((e) => console.error(e));
-
-
-  </script>
-  <footer>© 2026 Duncan Rendall, All rights reserved.</footer>
 </body>
 </html>

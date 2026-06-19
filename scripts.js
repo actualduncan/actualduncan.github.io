@@ -1,26 +1,7 @@
-function CalculateAnims()
-{
-  const lines = document.querySelectorAll('.terminal-text');
-  let cumulativeDelay = 0;
-
-  lines.forEach((line, index) => {
-    const length = line.textContent.length;
-    // How long this specific line takes to type (e.g., 0.05s per character)
-    const duration = length * 0.02; 
-
-    line.style.setProperty('--char-count', length);
-    line.style.setProperty('--delay', `${cumulativeDelay}s`);
-    line.style.setProperty('--duration', `${duration}s`);
-
-    // The next line starts only after this one finishes
-    cumulativeDelay += duration;
-  });
+// Mobile sidebar toggle
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  sidebar.classList.toggle('open');
+  if (overlay) overlay.classList.toggle('open');
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  CalculateAnims()
-});
-
-document.addEventListener("BlogLoaded", () => {
-  CalculateAnims()
-});

@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
-  <script src="scripts.js" defer></script>
-  <title>actualduncan</title>
+  <link rel="stylesheet" href="../styles.css">
+  <script src="../scripts.js" defer></script>
+  <title>actualduncan — hello_world</title>
 </head>
 <body>
 
   <!-- Tab Bar -->
   <div class="tabbar">
     <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">☰</button>
-    <a href="/" class="tab tab--active"><span class="tab-icon">●</span> about.h</a>
-    <a href="blog.html" class="tab"><span class="tab-icon">○</span> blog/</a>
+    <a href="/" class="tab"><span class="tab-icon">○</span> about.h</a>
+    <a href="../blog.html" class="tab"><span class="tab-icon">○</span> blog/</a>
+    <a href="hello_world.html" class="tab tab--active"><span class="tab-icon">●</span> hello_world.cpp</a>
 
   </div>
 
@@ -26,16 +27,16 @@
         <span>actualduncan</span>
       </div>
       <div class="sidebar-folder-children">
-        <a href="/" class="sidebar-file sidebar-file--active">
+        <a href="/" class="sidebar-file">
           <span class="sidebar-file-icon">📄</span> about.h
         </a>
         <div class="sidebar-folder">
-          <a href="blog.html" class="sidebar-folder-label">
+          <a href="../blog.html" class="sidebar-folder-label">
             <span class="sidebar-folder-arrow">▾</span>
             <span>blog</span>
           </a>
           <div class="sidebar-folder-children">
-            <a href="posts/hello_world.html" class="sidebar-file">
+            <a href="hello_world.html" class="sidebar-file sidebar-file--active">
               <span class="sidebar-file-icon">📝</span> hello_world.cpp
             </a>
           </div>
@@ -49,16 +50,15 @@
 
   <!-- Main Content -->
   <div class="main">
-<h1>Duncan Rendall</h1>
-<p>Engine Programmer at Rare Ltd.</p>
-<h2>What I Do</h2>
-<p>I work on game engine systems. performance, optimization, and the kind of low-level problems that keep me awake at night.</p>
-<h2>Skills</h2>
-<ul>
-<li>C++</li>
-<li>Unreal Engine</li>
-<li>Performance &amp; Optimization</li>
-</ul>
+    <h1>hello_world</h1>
+    <p><em>2026-06-19</em></p>
+
+    <hr>
+
+<h1>hello world</h1>
+<pre><code class="language-cpp">constexpr auto* main_point = nullptr;
+</code></pre>
+<hr>
 
   </div>
 
