@@ -10,7 +10,7 @@ Engine Programmer at Rare Ltd.
 
 I work on game engine systems. performance, optimization, and the kind of low-level problems that keep me awake at night.
 
-## Stuff I think I do
+## Stuff I think I know
 
 - C++
 - Unreal Engine
