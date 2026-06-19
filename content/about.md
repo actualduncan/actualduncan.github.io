@@ -6,11 +6,11 @@ title: actualduncan
 
 Engine Programmer at Rare Ltd.
 
-## What I Do
+## What I think I do
 
 I work on game engine systems. performance, optimization, and the kind of low-level problems that keep me awake at night.
 
-## Skills
+## Stuff I think I do
 
 - C++
 - Unreal Engine
