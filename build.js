@@ -42,16 +42,27 @@ function readPosts() {
 
 // --- HTML generators ---
 
+function postListHtml(posts, hrefPrefix) {
+  let html = '    <h2>Blog</h2>\n';
+  html += '    <p>Posts about engine programming, C++, and whatever else I\'m working on.</p>\n\n';
+  html += '    <ul class="post-list">\n';
+  for (const p of posts) {
+    html += '      <li>\n';
+    html += `        <a href="${hrefPrefix}${p.slug}.html">${p.title}</a>\n`;
+    html += `        <span class="post-date">${p.date}</span>\n`;
+    html += '      </li>\n';
+  }
+  html += '    </ul>';
+  return html;
+}
+
 function tabbar(active, post) {
   const isPost = active === 'post';
   const aboutHref = '/';
-  const blogHref = isPost ? '../blog.html' : 'blog.html';
 
   let html = '';
   html += `    <a href="${aboutHref}" class="tab${active === 'about' ? ' tab--active' : ''}">`;
   html += `<span class="tab-icon">${active === 'about' ? '●' : '○'}</span> about.h</a>\n`;
-  html += `    <a href="${blogHref}" class="tab${active === 'blog' ? ' tab--active' : ''}">`;
-  html += `<span class="tab-icon">${active === 'blog' ? '●' : '○'}</span> blog/</a>\n`;
 
   if (isPost && post) {
     html += `    <a href="${post.slug}.html" class="tab tab--active">`;
@@ -71,12 +82,11 @@ function sidebar(active, posts, activePost) {
   html += `        </a>\n`;
 
   // Blog folder
-  const blogHref = isPost ? '../blog.html' : 'blog.html';
   html += `        <div class="sidebar-folder">\n`;
-  html += `          <a href="${blogHref}" class="sidebar-folder-label">\n`;
+  html += `          <div class="sidebar-folder-label">\n`;
   html += `            <span class="sidebar-folder-arrow">▾</span>\n`;
   html += `            <span>blog</span>\n`;
-  html += `          </a>\n`;
+  html += `          </div>\n`;
   html += `          <div class="sidebar-folder-children">\n`;
 
   for (const p of posts) {
@@ -108,37 +118,18 @@ function build() {
   const template = fs.readFileSync(path.join(TEMPLATES, 'base.html'), 'utf-8');
   const posts = readPosts();
 
-  // About page
+  // Home page (about intro + blog post list)
   const about = parseFrontMatter(fs.readFileSync(path.join(CONTENT, 'about.md'), 'utf-8'));
+  const homeContent = marked.parse(about.body) +
+    '\n\n    <hr>\n\n' +
+    postListHtml(posts, 'posts/');
   fs.writeFileSync(path.join(ROOT, 'index.html'), render(template, {
     title: 'actualduncan',
     cssPath: 'styles.css',
     jsPath: 'scripts.js',
     tabbar: tabbar('about'),
     sidebarItems: sidebar('about', posts),
-    content: marked.parse(about.body),
-  }));
-
-  // Blog listing
-  let listHtml = '    <h1>Blog</h1>\n';
-  listHtml += '    <p>Posts about engine programming, C++, and whatever else I\'m working on.</p>\n\n';
-  listHtml += '    <hr>\n\n';
-  listHtml += '    <ul class="post-list">\n';
-  for (const p of posts) {
-    listHtml += '      <li>\n';
-    listHtml += `        <a href="posts/${p.slug}.html">${p.title}</a>\n`;
-    listHtml += `        <span class="post-date">${p.date}</span>\n`;
-    listHtml += '      </li>\n';
-  }
-  listHtml += '    </ul>';
-
-  fs.writeFileSync(path.join(ROOT, 'blog.html'), render(template, {
-    title: 'actualduncan — blog',
-    cssPath: 'styles.css',
-    jsPath: 'scripts.js',
-    tabbar: tabbar('blog'),
-    sidebarItems: sidebar('blog', posts),
-    content: listHtml,
+    content: homeContent,
   }));
 
   // Individual posts
@@ -161,7 +152,7 @@ function build() {
     }));
   }
 
-  console.log(`Built: index.html, blog.html, ${posts.length} post(s)`);
+  console.log(`Built: index.html, ${posts.length} post(s)`);
 }
 
 build();

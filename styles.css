@@ -152,6 +152,14 @@ a.sidebar-folder-label {
   padding-left: 12px;
 }
 
+.sidebar-folder.collapsed > .sidebar-folder-children {
+  display: none;
+}
+
+.sidebar-folder.collapsed > .sidebar-folder-label .sidebar-folder-arrow {
+  transform: rotate(-90deg);
+}
+
 .sidebar-file {
   display: flex;
   align-items: center;
