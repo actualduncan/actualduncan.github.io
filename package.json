@@ -5,6 +5,8 @@
     "build": "node build.js"
   },
   "dependencies": {
-    "marked": "^15.0.0"
+    "highlight.js": "^11.11.1",
+    "marked": "^15.0.0",
+    "marked-highlight": "^2.2.4"
   }
 }

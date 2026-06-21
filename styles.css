@@ -286,14 +286,99 @@ a.sidebar-folder-label {
 }
 
 .main pre {
-  background: #F0F0F0;
+  background: var(--mono-bg);
   padding: 16px;
   border-radius: 4px;
   overflow-x: auto;
   margin-bottom: 16px;
   font-size: 14px;
   line-height: 1.5;
-  color: #333;
+  color: var(--mono-fg);
+}
+
+.main pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* --- Syntax Highlighting (highlight.js, Monokai) --- */
+.hljs {
+  color: var(--mono-fg);
+  background: var(--mono-bg);
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: var(--mono-comment);
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-name,
+.hljs-tag {
+  color: #F92672;
+}
+
+.hljs-string,
+.hljs-title,
+.hljs-section,
+.hljs-attribute,
+.hljs-literal,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-type,
+.hljs-addition {
+  color: var(--mono-green);
+}
+
+.hljs-number,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-meta,
+.hljs-link {
+  color: #AE81FF;
+}
+
+.hljs-title.function_,
+.hljs-function .hljs-title,
+.hljs-class .hljs-title,
+.hljs-title.class_ {
+  color: var(--mono-green);
+}
+
+.hljs-params,
+.hljs-variable,
+.hljs-property {
+  color: var(--mono-fg);
+}
+
+.hljs-attr,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: var(--mono-orange);
+}
+
+.hljs-doctag,
+.hljs-meta-keyword {
+  color: var(--mono-blue);
+}
+
+.hljs-deletion {
+  color: #F92672;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
 }
 
 /* --- Blog Post List --- */

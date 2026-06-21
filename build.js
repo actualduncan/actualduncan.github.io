@@ -1,6 +1,19 @@
 const fs = require('fs');
 const path = require('path');
-const { marked } = require('marked');
+const { Marked } = require('marked');
+const { markedHighlight } = require('marked-highlight');
+const hljs = require('highlight.js');
+
+const marked = new Marked(
+  markedHighlight({
+    emptyLangClass: 'hljs',
+    langPrefix: 'hljs language-',
+    highlight(code, lang) {
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+      return hljs.highlight(code, { language }).value;
+    },
+  })
+);
 
 const ROOT = __dirname;
 const CONTENT = path.join(ROOT, 'content');
