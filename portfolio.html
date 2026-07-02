@@ -5,14 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
   <script src="scripts.js" defer></script>
-  <title>actualduncan</title>
+  <title>actualduncan — portfolio</title>
 </head>
 <body>
 
   <!-- Tab Bar -->
   <div class="tabbar">
     <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">☰</button>
-    <a href="/" class="tab tab--active"><span class="tab-icon">●</span> about.h</a>
+    <a href="/" class="tab"><span class="tab-icon">○</span> about.h</a>
+    <a href="/portfolio.html" class="tab tab--active"><span class="tab-icon">●</span> portfolio.h</a>
 
   </div>
 
@@ -25,13 +26,13 @@
         <span>actualduncan</span>
       </div>
       <div class="sidebar-folder-children">
-        <a href="/" class="sidebar-file sidebar-file--active">
+        <a href="/" class="sidebar-file">
           <span class="sidebar-file-icon">📄</span> about.h
         </a>
         <a href="/blog.html" class="sidebar-file">
           <span class="sidebar-file-icon">📄</span> blog.h
         </a>
-        <a href="/portfolio.html" class="sidebar-file">
+        <a href="/portfolio.html" class="sidebar-file sidebar-file--active">
           <span class="sidebar-file-icon">📄</span> portfolio.h
         </a>
         <div class="sidebar-folder">
@@ -66,30 +67,15 @@
 
   <!-- Main Content -->
   <div class="main">
-<h1>Duncan Rendall</h1>
-<p>Engine Programmer at Rare Ltd.</p>
-<h2>What I think I do</h2>
-<p>I work on game engine systems. performance, optimization, and the kind of low-level problems that keep me awake at night.</p>
-<h2>Stuff I think I know</h2>
-<ul>
-<li>C++</li>
-<li>Unreal Engine</li>
-<li>Performance &amp; Optimization</li>
-</ul>
+<h1>Portfolio</h1>
+<h2>Projects:</h2>
 
 
-    <hr>
-
-    <div class="page-links">
-      <a href="/blog.html" class="page-link">
-        <span class="page-link-icon">📄</span>
-        <span class="page-link-name">blog.h</span>
-      </a>
-      <a href="/portfolio.html" class="page-link">
-        <span class="page-link-icon">📄</span>
-        <span class="page-link-name">portfolio.h</span>
-      </a>
-    </div>
+    <ul class="post-list">
+      <li>
+        <a href="portfolio/sea_of_thieves.html">sea_of_thieves</a>
+      </li>
+    </ul>
   </div>
 
 </body>

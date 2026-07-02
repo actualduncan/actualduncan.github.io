@@ -414,6 +414,41 @@ a.sidebar-folder-label {
   margin-top: 2px;
 }
 
+/* --- Page Links (index grid) --- */
+.page-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.page-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--mono-sidebar);
+  border: 1px solid var(--mono-border);
+  border-radius: 4px;
+  color: var(--mono-blue);
+  text-decoration: none;
+  font-family: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace;
+  font-size: 14px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.page-link:hover {
+  background: var(--mono-highlight);
+  border-color: var(--mono-blue);
+}
+
+.page-link-icon {
+  font-size: 1.2em;
+}
+
+.page-link-name {
+  color: var(--mono-fg);
+}
+
 /* --- Sidebar Overlay (Mobile) --- */
 .sidebar-overlay {
   display: none;

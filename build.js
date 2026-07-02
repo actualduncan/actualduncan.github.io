@@ -34,84 +34,143 @@ function parseFrontMatter(raw) {
   return { meta, body: match[2] };
 }
 
-// --- Read all posts ---
+// --- Auto-discover content ---
 
-function readPosts() {
-  const dir = path.join(CONTENT, 'posts');
+function discoverContent() {
+  const entries = fs.readdirSync(CONTENT, { withFileTypes: true });
+  const pages = [];
+  const folders = [];
+
+  for (const entry of entries) {
+    if (entry.isFile() && entry.name.endsWith('.md')) {
+      const name = entry.name.replace('.md', '');
+      const raw = fs.readFileSync(path.join(CONTENT, entry.name), 'utf-8');
+      const { meta, body } = parseFrontMatter(raw);
+      pages.push({
+        name,
+        title: meta.title || name,
+        description: meta.description || '',
+        body,
+        html: marked.parse(body),
+      });
+    } else if (entry.isDirectory()) {
+      const folderItems = readFolder(entry.name);
+      if (folderItems.length > 0) {
+        folders.push({ name: entry.name, items: folderItems });
+      }
+    }
+  }
+
+  // Sort pages: about first, then alphabetical
+  pages.sort((a, b) => {
+    if (a.name === 'about') return -1;
+    if (b.name === 'about') return 1;
+    return a.name.localeCompare(b.name);
+  });
+
+  // Sort folders alphabetically
+  folders.sort((a, b) => a.name.localeCompare(b.name));
+
+  return { pages, folders };
+}
+
+function readFolder(folderName) {
+  const dir = path.join(CONTENT, folderName);
   if (!fs.existsSync(dir)) return [];
   return fs.readdirSync(dir)
     .filter(f => f.endsWith('.md'))
     .map(f => {
-      const { meta, body } = parseFrontMatter(fs.readFileSync(path.join(dir, f), 'utf-8'));
+      const raw = fs.readFileSync(path.join(dir, f), 'utf-8');
+      const { meta, body } = parseFrontMatter(raw);
       return {
         slug: f.replace('.md', ''),
         title: meta.title || f.replace('.md', ''),
-        date: meta.date || new Date().toISOString().slice(0, 10),
+        date: meta.date || '',
         html: marked.parse(body),
       };
     })
-    .sort((a, b) => b.date.localeCompare(a.date));
+    .sort((a, b) => {
+      if (a.date && b.date) return b.date.localeCompare(a.date);
+      return a.slug.localeCompare(b.slug);
+    });
 }
 
 // --- HTML generators ---
 
-function postListHtml(posts, hrefPrefix) {
-  let html = '    <h2>Blog</h2>\n';
-  html += '    <p>Posts about engine programming, C++, and whatever else I\'m working on.</p>\n\n';
-  html += '    <ul class="post-list">\n';
-  for (const p of posts) {
+function itemListHtml(folder, hrefPrefix) {
+  let html = `    <ul class="post-list">\n`;
+  for (const item of folder.items) {
     html += '      <li>\n';
-    html += `        <a href="${hrefPrefix}${p.slug}.html">${p.title}</a>\n`;
-    html += `        <span class="post-date">${p.date}</span>\n`;
+    html += `        <a href="${hrefPrefix}${item.slug}.html">${item.title}</a>\n`;
+    if (item.date) {
+      html += `        <span class="post-date">${item.date}</span>\n`;
+    }
     html += '      </li>\n';
   }
   html += '    </ul>';
   return html;
 }
 
-function tabbar(active, post) {
-  const isPost = active === 'post';
-  const aboutHref = '/';
-
+function tabbar(activePage, activeItem) {
   let html = '';
-  html += `    <a href="${aboutHref}" class="tab${active === 'about' ? ' tab--active' : ''}">`;
-  html += `<span class="tab-icon">${active === 'about' ? '●' : '○'}</span> about.h</a>\n`;
+  html += `    <a href="/" class="tab${activePage === 'about' ? ' tab--active' : ''}">`;
+  html += `<span class="tab-icon">${activePage === 'about' ? '●' : '○'}</span> about.h</a>\n`;
 
-  if (isPost && post) {
-    html += `    <a href="${post.slug}.html" class="tab tab--active">`;
-    html += `<span class="tab-icon">●</span> ${post.slug}.cpp</a>\n`;
+  if (activeItem) {
+    html += `    <a href="${activeItem.slug}.html" class="tab tab--active">`;
+    html += `<span class="tab-icon">●</span> ${activeItem.slug}.cpp</a>\n`;
+  } else if (activePage && activePage !== 'about') {
+    html += `    <a href="/${activePage}.html" class="tab tab--active">`;
+    html += `<span class="tab-icon">●</span> ${activePage}.h</a>\n`;
   }
   return html;
 }
 
-function sidebar(active, posts, activePost) {
-  const isPost = active === 'post';
+function sidebar(activePage, activeItem, content) {
   let html = '';
 
-  // About link
-  const aboutActive = active === 'about' ? ' sidebar-file--active' : '';
-  html += `        <a href="/" class="sidebar-file${aboutActive}">\n`;
-  html += `          <span class="sidebar-file-icon">📄</span> about.h\n`;
-  html += `        </a>\n`;
-
-  // Blog folder
-  html += `        <div class="sidebar-folder">\n`;
-  html += `          <div class="sidebar-folder-label">\n`;
-  html += `            <span class="sidebar-folder-arrow">▾</span>\n`;
-  html += `            <span>blog</span>\n`;
-  html += `          </div>\n`;
-  html += `          <div class="sidebar-folder-children">\n`;
-
-  for (const p of posts) {
-    const href = isPost ? `${p.slug}.html` : `posts/${p.slug}.html`;
-    const fileActive = activePost && activePost.slug === p.slug ? ' sidebar-file--active' : '';
-    html += `            <a href="${href}" class="sidebar-file${fileActive}">\n`;
-    html += `              <span class="sidebar-file-icon">📝</span> ${p.slug}.cpp\n`;
-    html += `            </a>\n`;
+  // Top-level pages as file links
+  for (const page of content.pages) {
+    const isActive = activePage === page.name && !activeItem;
+    const activeClass = isActive ? ' sidebar-file--active' : '';
+    const href = page.name === 'about' ? '/' : `/${page.name}.html`;
+    html += `        <a href="${href}" class="sidebar-file${activeClass}">\n`;
+    html += `          <span class="sidebar-file-icon">📄</span> ${page.name}.h\n`;
+    html += `        </a>\n`;
   }
 
-  html += `          </div>\n`;
-  html += `        </div>`;
+  // Folders
+  for (const folder of content.folders) {
+    html += `        <div class="sidebar-folder">\n`;
+    html += `          <div class="sidebar-folder-label">\n`;
+    html += `            <span class="sidebar-folder-arrow">▾</span>\n`;
+    html += `            <span>${folder.name}</span>\n`;
+    html += `          </div>\n`;
+    html += `          <div class="sidebar-folder-children">\n`;
+
+    for (const item of folder.items) {
+      const isItemActive = activeItem && activeItem.slug === item.slug;
+      const fileActive = isItemActive ? ' sidebar-file--active' : '';
+      let href;
+      if (activePage === folder.name && activeItem) {
+        // Inside this folder — relative link to sibling
+        href = `${item.slug}.html`;
+      } else if (activeItem) {
+        // Inside a different folder — go up then into target folder
+        href = `../${folder.name}/${item.slug}.html`;
+      } else {
+        // At root level — path from root
+        href = `${folder.name}/${item.slug}.html`;
+      }
+      html += `            <a href="${href}" class="sidebar-file${fileActive}">\n`;
+      html += `              <span class="sidebar-file-icon">📝</span> ${item.slug}.cpp\n`;
+      html += `            </a>\n`;
+    }
+
+    html += `          </div>\n`;
+    html += `        </div>\n`;
+  }
+
   return html;
 }
 
@@ -129,43 +188,84 @@ function render(template, vars) {
 
 function build() {
   const template = fs.readFileSync(path.join(TEMPLATES, 'base.html'), 'utf-8');
-  const posts = readPosts();
+  const content = discoverContent();
 
-  // Home page (about intro + blog post list)
-  const about = parseFrontMatter(fs.readFileSync(path.join(CONTENT, 'about.md'), 'utf-8'));
-  const homeContent = marked.parse(about.body) +
-    '\n\n    <hr>\n\n' +
-    postListHtml(posts, 'posts/');
+  // Find the about page for the homepage
+  const aboutPage = content.pages.find(p => p.name === 'about');
+
+  // Home page (about content + page links)
+  let homeContent = aboutPage ? aboutPage.html : '';
+  const otherPages = content.pages.filter(p => p.name !== 'about');
+  if (otherPages.length > 0) {
+    homeContent += '\n\n    <hr>\n\n';
+    homeContent += '    <div class="page-links">\n';
+    for (const page of otherPages) {
+      homeContent += `      <a href="/${page.name}.html" class="page-link">\n`;
+      homeContent += `        <span class="page-link-icon">📄</span>\n`;
+      homeContent += `        <span class="page-link-name">${page.name}.h</span>\n`;
+      homeContent += `      </a>\n`;
+    }
+    homeContent += '    </div>';
+  }
+
   fs.writeFileSync(path.join(ROOT, 'index.html'), render(template, {
     title: 'actualduncan',
     cssPath: 'styles.css',
     jsPath: 'scripts.js',
-    tabbar: tabbar('about'),
-    sidebarItems: sidebar('about', posts),
+    tabbar: tabbar('about', null),
+    sidebarItems: sidebar('about', null, content),
     content: homeContent,
   }));
 
-  // Individual posts
-  const postsDir = path.join(ROOT, 'posts');
-  if (!fs.existsSync(postsDir)) fs.mkdirSync(postsDir, { recursive: true });
+  // Build top-level pages (except about, which is the homepage)
+  for (const page of content.pages) {
+    if (page.name === 'about') continue;
 
-  for (const p of posts) {
-    let postHtml = `    <h1>${p.title}</h1>\n`;
-    postHtml += `    <p><em>${p.date}</em></p>\n\n`;
-    postHtml += '    <hr>\n\n';
-    postHtml += p.html;
+    // Check if this page has a matching folder (listing page)
+    const matchingFolder = content.folders.find(f => f.name === page.name);
+    let pageContent = page.html;
+    if (matchingFolder && matchingFolder.items.length > 0) {
+      pageContent += '\n\n';
+      pageContent += itemListHtml(matchingFolder, `${page.name}/`);
+    }
 
-    fs.writeFileSync(path.join(postsDir, `${p.slug}.html`), render(template, {
-      title: `actualduncan — ${p.title}`,
-      cssPath: '../styles.css',
-      jsPath: '../scripts.js',
-      tabbar: tabbar('post', p),
-      sidebarItems: sidebar('post', posts, p),
-      content: postHtml,
+    fs.writeFileSync(path.join(ROOT, `${page.name}.html`), render(template, {
+      title: `actualduncan — ${page.title}`,
+      cssPath: 'styles.css',
+      jsPath: 'scripts.js',
+      tabbar: tabbar(page.name, null),
+      sidebarItems: sidebar(page.name, null, content),
+      content: pageContent,
     }));
   }
 
-  console.log(`Built: index.html, ${posts.length} post(s)`);
+  // Build individual items in each folder
+  for (const folder of content.folders) {
+    const outDir = path.join(ROOT, folder.name);
+    if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+
+    for (const item of folder.items) {
+      let itemHtml = `    <h1>${item.title}</h1>\n`;
+      if (item.date) {
+        itemHtml += `    <p><em>${item.date}</em></p>\n\n`;
+      }
+      itemHtml += '    <hr>\n\n';
+      itemHtml += item.html;
+
+      fs.writeFileSync(path.join(outDir, `${item.slug}.html`), render(template, {
+        title: `actualduncan — ${item.title}`,
+        cssPath: '../styles.css',
+        jsPath: '../scripts.js',
+        tabbar: tabbar(folder.name, item),
+        sidebarItems: sidebar(folder.name, item, content),
+        content: itemHtml,
+      }));
+    }
+  }
+
+  const totalItems = content.folders.reduce((sum, f) => sum + f.items.length, 0);
+  const topPages = content.pages.filter(p => p.name !== 'about').length;
+  console.log(`Built: index.html, ${topPages} page(s), ${totalItems} item(s) across ${content.folders.length} folder(s)`);
 }
 
 build();
