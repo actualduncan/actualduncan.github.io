@@ -1,6 +1,6 @@
 # actualduncan.github.io
 
-Personal site — auto-generated from markdown content.
+Personal Site :)
 
 ## Building
 
