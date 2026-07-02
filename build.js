@@ -230,7 +230,7 @@ function build() {
     }
 
     fs.writeFileSync(path.join(ROOT, `${page.name}.html`), render(template, {
-      title: `actualduncan — ${page.title}`,
+      title: `actualduncan`,
       cssPath: 'styles.css',
       jsPath: 'scripts.js',
       tabbar: tabbar(page.name, null),
@@ -253,7 +253,7 @@ function build() {
       itemHtml += item.html;
 
       fs.writeFileSync(path.join(outDir, `${item.slug}.html`), render(template, {
-        title: `actualduncan — ${item.title}`,
+        title: `actualduncan`,
         cssPath: '../styles.css',
         jsPath: '../scripts.js',
         tabbar: tabbar(folder.name, item),
